@@ -13,7 +13,7 @@ However there are still list editors that can decide on placements. These editor
 I personally take a very unbiased approach when it comes to this, so I do not proritize my opinion over anybody else's opinions simply because I am the only one with the power to physically make the change.
 So without further ado, here is the full (updating) list of list editors so you can contact one of us to propose a change:
 
-Saturn (Me) @saturndc47
+Saturn (Me) @saturndc47,
 Marcus @theladsofficialshow
 
 That's it for now, mostly I only add people who I know personally, but if you are active in the community and have good opinions regarding levels with wave gameplay, I might consider adding you.
