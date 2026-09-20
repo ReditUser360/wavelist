@@ -19,6 +19,8 @@
     --text: #eaeaf2;
     --text-dim: #a0a0b8;
     --danger: #ff5c7a;
+    --status-green: #4ade80;
+    --status-red: #f87171;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -507,6 +509,93 @@
     font-size: 0.98rem;
   }
 
+  /* Upcoming list cards */
+  .upcoming-list {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .upcoming-card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.75rem 2rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .upcoming-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(124, 92, 255, 0.4);
+  }
+  .upcoming-status {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    box-shadow: 0 0 12px currentColor;
+  }
+  .upcoming-status.green {
+    background: var(--status-green);
+    color: var(--status-green);
+  }
+  .upcoming-status.red {
+    background: var(--status-red);
+    color: var(--status-red);
+  }
+  .upcoming-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-right: 2rem;
+    flex-wrap: wrap;
+  }
+  .upcoming-rank {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.02em;
+  }
+  .upcoming-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .upcoming-points {
+    font-weight: 700;
+    color: var(--accent-2);
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+  .upcoming-points span {
+    font-weight: 500;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  .upcoming-info {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0.75rem 1rem;
+    line-height: 1.6;
+  }
+  .upcoming-info-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    padding-top: 0.1rem;
+  }
+  .upcoming-info-value {
+    font-size: 0.98rem;
+    color: var(--text);
+  }
+
   /* Forms */
   .form-group {
     margin-bottom: 1.25rem;
@@ -735,6 +824,10 @@
     .changelog-entry { padding: 1.4rem 1.25rem; }
     .changelog-field { grid-template-columns: 1fr; gap: 0.25rem; }
     .dev-warning { padding: 1.15rem 1.25rem; font-size: 0.95rem; }
+    .upcoming-card { padding: 1.4rem 1.25rem; }
+    .upcoming-info { grid-template-columns: 1fr; gap: 0.25rem; }
+    .upcoming-name { font-size: 1.15rem; }
+    .upcoming-rank { font-size: 1.25rem; }
   }
 </style>
 </head>
@@ -810,9 +903,98 @@
   </div>
 
   <div class="tab-panel" id="tab-upcoming">
-    <div class="empty-state">
-      <strong>No upcoming levels yet</strong>
-      Levels being considered for the mainlist will appear here.
+    <div class="upcoming-list">
+
+      <div class="upcoming-card">
+        <div class="upcoming-status green"></div>
+        <div class="upcoming-header">
+          <span class="upcoming-rank">#1</span>
+          <span class="upcoming-name">Vehemence Wave</span>
+        </div>
+        <div class="upcoming-points">50 projected list points</div>
+        <div class="upcoming-info">
+          <div class="upcoming-info-label">Creator(s):</div>
+          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-label">Verifier:</div>
+          <div class="upcoming-info-value">No planned verifier</div>
+        </div>
+      </div>
+
+      <div class="upcoming-card">
+        <div class="upcoming-status green"></div>
+        <div class="upcoming-header">
+          <span class="upcoming-rank">#2</span>
+          <span class="upcoming-name">Flamewave</span>
+        </div>
+        <div class="upcoming-points">40 projected list points</div>
+        <div class="upcoming-info">
+          <div class="upcoming-info-label">Creator(s):</div>
+          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-label">Verifier:</div>
+          <div class="upcoming-info-value">No planned verifier</div>
+        </div>
+      </div>
+
+      <div class="upcoming-card">
+        <div class="upcoming-status red"></div>
+        <div class="upcoming-header">
+          <span class="upcoming-rank">#3</span>
+          <span class="upcoming-name">Waveopolis</span>
+        </div>
+        <div class="upcoming-points">29 projected list points</div>
+        <div class="upcoming-info">
+          <div class="upcoming-info-label">Creator(s):</div>
+          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-label">Verifier:</div>
+          <div class="upcoming-info-value">No planned verifier</div>
+        </div>
+      </div>
+
+      <div class="upcoming-card">
+        <div class="upcoming-status green"></div>
+        <div class="upcoming-header">
+          <span class="upcoming-rank">#4</span>
+          <span class="upcoming-name">Grief Wave</span>
+        </div>
+        <div class="upcoming-points">11 projected list points</div>
+        <div class="upcoming-info">
+          <div class="upcoming-info-label">Creator(s):</div>
+          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-label">Verifier:</div>
+          <div class="upcoming-info-value">Marcus</div>
+        </div>
+      </div>
+
+      <div class="upcoming-card">
+        <div class="upcoming-status green"></div>
+        <div class="upcoming-header">
+          <span class="upcoming-rank">#5</span>
+          <span class="upcoming-name">Cucumber Spam</span>
+        </div>
+        <div class="upcoming-points">9 projected list points</div>
+        <div class="upcoming-info">
+          <div class="upcoming-info-label">Creator(s):</div>
+          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-label">Verifier:</div>
+          <div class="upcoming-info-value">Marcus</div>
+        </div>
+      </div>
+
+      <div class="upcoming-card">
+        <div class="upcoming-status green"></div>
+        <div class="upcoming-header">
+          <span class="upcoming-rank">#6</span>
+          <span class="upcoming-name">VSwave</span>
+        </div>
+        <div class="upcoming-points">3 projected list points</div>
+        <div class="upcoming-info">
+          <div class="upcoming-info-label">Creator(s):</div>
+          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-label">Verifier:</div>
+          <div class="upcoming-info-value">Marcus</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
