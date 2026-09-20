@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wavelist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --bg-1: #0a0a12;
+    --bg-2: #12121f;
+    --accent-1: #7c5cff;
+    --accent-2: #4f8cff;
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --text: #eaeaf2;
+    --text-dim: #a0a0b8;
+    --danger: #ff5c7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    min-height: 100%;
+    font-family: 'Rubik', system-ui, sans-serif;
+    color: var(--text);
+    background: var(--bg-1);
+    overflow-x: hidden;
+  }
+
+  /* Animated background orbs */
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+  }
+  body::before {
+    width: 500px; height: 500px;
+    background: var(--accent-1);
+    top: -150px; left: -150px;
+    animation: float1 18s ease-in-out infinite;
+  }
+  body::after {
+    width: 600px; height: 600px;
+    background: var(--accent-2);
+    bottom: -200px; right: -200px;
+    animation: float2 22s ease-in-out infinite;
+  }
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(80px, 60px); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-100px, -80px); }
+  }
+
+  /* Nav */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: rgba(10, 10, 18, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .logo {
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    cursor: pointer;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .nav-links button {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .nav-links button:hover {
+    color: var(--text);
+    background: var(--glass-bg);
+  }
+  .nav-links button.active {
+    color: var(--text);
+    background: var(--glass-bg);
+  }
+
+  /* Pages */
+  .page {
+    display: none;
+    position: relative;
+    z-index: 1;
+    padding: 4rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease;
+  }
+  .page.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 3rem 0 4rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+    background: linear-gradient(135deg, #fff 0%, #b8b8d8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--text-dim);
+    max-width: 640px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Development warning */
+  .dev-warning {
+    background: rgba(255, 92, 122, 0.12);
+    border: 1px solid rgba(255, 92, 122, 0.5);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 2.5rem;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 1rem;
+    text-align: left;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(255, 92, 122, 0.15);
+  }
+  .dev-warning strong {
+    color: var(--danger);
+    font-weight: 700;
+  }
+
+  /* Feature boxes */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .feature-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 1.75rem 1.5rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    text-align: left;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(124, 92, 255, 0.4);
+    box-shadow: 0 12px 32px rgba(124, 92, 255, 0.18);
+  }
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    box-shadow: 0 6px 20px rgba(124, 92, 255, 0.35);
+  }
+  .feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .feature-card p {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* Buttons */
+  .btn {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  }
+  .btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124, 92, 255, 0.25);
+  }
+  .btn:active {
+    transform: scale(0.96);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn:disabled:hover {
+    background: var(--glass-bg);
+    transform: none;
+    box-shadow: none;
+  }
+  .btn.primary {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    border: none;
+    color: white;
+  }
+  .btn.primary:hover {
+    box-shadow: 0 10px 32px rgba(124, 92, 255, 0.45);
+  }
+  .btn.primary:disabled:hover {
+    box-shadow: none;
+  }
+  .btn.danger {
+    border-color: rgba(255, 92, 122, 0.4);
+    color: var(--danger);
+  }
+  .btn.danger:hover {
+    background: rgba(255, 92, 122, 0.12);
+    box-shadow: 0 8px 24px rgba(255, 92, 122, 0.2);
+  }
+
+  /* Glass cards */
+  .card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Page headers */
+  .page-header {
+    margin-bottom: 2rem;
+  }
+  .page-header h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .page-header p {
+    color: var(--text-dim);
+    font-size: 1rem;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 0.4rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    flex-wrap: wrap;
+  }
+  .tab {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .tab:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .tab.active {
+    color: white;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    box-shadow: 0 6px 20px rgba(124, 92, 255, 0.35);
+  }
+  .tab-panel {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .tab-panel.active { display: block; }
+
+  /* List rows */
+  .list-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    margin-bottom: 0.75rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .list-row:hover {
+    transform: translateX(4px);
+    border-color: rgba(124, 92, 255, 0.4);
+  }
+  .rank {
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .rank.top1 { color: #ffd76e; }
+  .rank.top2 { color: #c8d0e0; }
+  .rank.top3 { color: #d89268; }
+  .row-name {
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .row-sub {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 0.15rem;
+  }
+  .row-stat {
+    font-weight: 700;
+    color: var(--accent-2);
+    font-size: 1.05rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-dim);
+    background: var(--glass-bg);
+    border: 1px dashed var(--glass-border);
+    border-radius: 20px;
+  }
+  .empty-state strong {
+    display: block;
+    color: var(--text);
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Loading indicator */
+  .loading {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-dim);
+    font-size: 1rem;
+  }
+
+  /* Info card (for submit instructions) */
+  .info-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    margin-bottom: 1.5rem;
+  }
+  .info-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  .info-card p {
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+  .info-card ol {
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 1rem;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .info-card ol li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+  }
+  .info-card ol li::marker {
+    color: var(--accent-2);
+    font-weight: 700;
+  }
+  .warning-note {
+    background: rgba(255, 92, 122, 0.1);
+    border: 1px solid rgba(255, 92, 122, 0.35);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+  .warning-note strong {
+    color: var(--danger);
+  }
+
+  /* Changelog entries */
+  .changelog-entry {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.75rem 2rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    margin-bottom: 1.25rem;
+  }
+  .changelog-date {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .changelog-field {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+    line-height: 1.7;
+  }
+  .changelog-field:last-child {
+    margin-bottom: 0;
+  }
+  .changelog-label {
+    font-weight: 600;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    padding-top: 0.15rem;
+  }
+  .changelog-value {
+    color: var(--text);
+    font-size: 0.98rem;
+  }
+
+  /* Forms */
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  .form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-dim);
+  }
+  .form-group input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text);
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .form-group input:focus {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+  }
+
+  /* Profile update sections */
+  .update-section {
+    margin-bottom: 1.5rem;
+  }
+  .update-section h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  .update-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .auth-card {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .auth-switch {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+  }
+  .auth-switch button {
+    background: none;
+    border: none;
+    color: var(--accent-2);
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0;
+  }
+  .auth-switch button:hover { text-decoration: underline; }
+
+  .account-info {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.9rem 1.1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+  }
+  .info-row span:first-child {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  .info-row span:last-child {
+    font-weight: 600;
+  }
+
+  /* Discord callout */
+  .discord-callout {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 3rem auto 0;
+    padding: 1.75rem 2rem;
+    text-align: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .discord-callout a {
+    color: var(--accent-2);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(79, 140, 255, 0.4);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .discord-callout a:hover {
+    color: var(--accent-1);
+    border-color: var(--accent-1);
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.show {
+    display: flex;
+  }
+  .modal {
+    background: rgba(18, 18, 31, 0.85);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 420px;
+    width: 100%;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.3s ease;
+  }
+  .modal h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .modal p {
+    color: var(--text-dim);
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(calc(100% + 3rem));
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 0.9rem 1.5rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: transform 0.35s ease;
+    z-index: 400;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    max-width: calc(100vw - 2rem);
+    text-align: center;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 0.85rem 1rem; }
+    .nav-links button { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
+    .logo { font-size: 1.1rem; }
+    .page { padding: 2.5rem 1rem; }
+    .hero { padding: 2rem 0 3rem; }
+    .card { padding: 1.5rem; }
+    .list-row {
+      grid-template-columns: 44px 1fr auto;
+      gap: 0.85rem;
+      padding: 0.9rem 1rem;
+    }
+    .rank { font-size: 1.15rem; }
+    .row-name { font-size: 0.95rem; }
+    .row-stat { font-size: 0.95rem; }
+    .hero-buttons { flex-direction: column; }
+    .hero-buttons .btn { width: 100%; }
+    .feature-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .feature-card { padding: 1.4rem 1.25rem; }
+    .update-actions .btn { flex: 1; }
+    .discord-callout { padding: 1.4rem 1.25rem; font-size: 0.98rem; margin: 2rem 1rem 0; }
+    .tabs { padding: 0.3rem; }
+    .tab { padding: 0.6rem 0.8rem; font-size: 0.85rem; min-width: 0; }
+    .info-card { padding: 1.5rem 1.25rem; }
+    .info-card h3 { font-size: 1.1rem; }
+    .info-card ol { padding-left: 1.25rem; font-size: 0.95rem; }
+    .warning-note { padding: 1rem 1.15rem; font-size: 0.95rem; }
+    .modal { padding: 1.5rem; }
+    .modal-actions { flex-direction: column-reverse; }
+    .modal-actions .btn { width: 100%; }
+    .changelog-entry { padding: 1.4rem 1.25rem; }
+    .changelog-field { grid-template-columns: 1fr; gap: 0.25rem; }
+    .dev-warning { padding: 1.15rem 1.25rem; font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="showPage('home')">WAVELIST</div>
+  <div class="nav-links">
+    <button data-page="list" onclick="showPage('list')">List</button>
+    <button data-page="leaderboard" onclick="showPage('leaderboard')">Leaderboard</button>
+    <button data-page="submit" onclick="showPage('submit')">Submit</button>
+    <button data-page="account" onclick="showPage('account')">Account</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <h1>Official Wavelist</h1>
+    <p>This website is currently managed by SaturnGD47</p>
+
+    <div class="dev-warning">
+      <strong>Warning:</strong> this website is still under development and is not finished. Trying to do anything server-side will likely result in data loss or account deletion. Please use site for viewing purposes only unless you have been specifically asked by the developer to use it.
+    </div>
+
+    <div class="hero-buttons">
+      <button class="btn primary" onclick="showPage('list')">View wavelist</button>
+      <button class="btn" onclick="showPage('leaderboard')">View leaderboard</button>
+      <button class="btn" onclick="showPage('submit')">Submit</button>
+    </div>
+
+    <!-- Auth-dependent buttons -->
+    <div class="hero-buttons" id="hero-auth-buttons" style="margin-top:1rem"></div>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📤</div>
+      <h3>Submit Your Levels</h3>
+      <p>Got a wave level you think deserves a spot? Send it in and it'll be reviewed for the mainlist.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>View Player Stats</h3>
+      <p>Check the leaderboard to see where every player stands based on the levels they've completed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✅</div>
+      <h3>Track Verifications</h3>
+      <p>Keep an eye on upcoming level verifications and see what's being worked on.</p>
+    </div>
+  </div>
+</div>
+
+<!-- LIST -->
+<div class="page" id="page-list">
+  <div class="page-header">
+    <h2>List</h2>
+    <p>Rankings of every wave level submitted to the list</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="mainlist" onclick="showTab('mainlist')">Mainlist</button>
+    <button class="tab" data-tab="upcoming" onclick="showTab('upcoming')">Upcoming List</button>
+    <button class="tab" data-tab="changelog" onclick="showTab('changelog')">Changelog</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-mainlist">
+    <div class="empty-state">
+      <strong>No levels yet</strong>
+      Levels will appear here once they're added.
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-upcoming">
+    <div class="empty-state">
+      <strong>No upcoming levels yet</strong>
+      Levels being considered for the mainlist will appear here.
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-changelog">
+    <div class="changelog-entry">
+      <div class="changelog-date">9 - 5 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">A level called "VSwave" created by GodOfMars12 was discovered and placed on the upcoming list, with a projected 3 leaderboard points, easier than Grief Wave. This level is set to be verified by GodOfMars12.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">9 - 5 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">A level called "Vehemence Wave" currently being created by GodOfMars12 was discovered and placed on the upcoming list, with a projected 50 leaderboard points, harder than Flamewave. This level is set to be verified by GodOfMars12.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">9 - 5 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">"Flamewave" determined to be actively worked on, level has been marked as green on the upcoming list.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">9 - 5 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">"Cucumber Spam" moved down one spot on the upcoming list, below "Grief Wave."</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">Level was found to be easier than previously determined; after careful consideration, we have determined Cucumber Spam to be easier than Grief Wave. Cucumber Spam now stands at 9 projected leaderboard points, while Grief Wave now stands at 11 projected leaderboard points.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">8 - 31 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">A level called "Cucumber Spam" created by GodOfMars12 was discovered and placed on the upcoming list, with a projected 11 leaderboard points, harder than Grief Wave and easier than Waveopolis. This level is set to be verified by GodOfMars12.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">8 - 30 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">"Wavemoc Nerfleashed" moved up one spot, below Grief Wave Nerfed and above Nerfed Wave Trials.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">Level was found to be harder than previously determined; after careful consideration, we have determined Wavemoc Nerfleashed to be harder than Nerfed Wave Trials. Wavemoc Nerfleashed now stands at 2.8 leaderboard points, while Nerfed Wave Trials now stands at 2.5 leaderboard points. Leaderboard and all records have been updated appropriately.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">8 - 30 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">Added a submission form directly accessible from the website so you do not have to submit levels and records using the Discord server.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">8 - 30 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">Fixed the changelog page on the website saying "leaderboard" instead of "changelog."</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">8 - 25 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">Changelog has been added to the Wavelist website! This means that every change prior to this entry has been documented after the matter, however dates of records have all been confirmed using history from private dm's, chats in the discord server, etc.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">8 - 13 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">"EXPIRATION nerf" removed from list.</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">Level was found to be ineligible for the wavelist; a level must consist of fully wave gameplay to be considered a wave level. Since the level in question had cube and ship gameplay, the level is not considered a wave level, therefore it is not allowed on this list.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">8 - 12 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">Wavelist created! Levels "Grief Wave Nerfed" "Nerfed Wave Trials" "Wavemoc Nerfleashed" and "EXPIRATION nerf" have been added! Players GodOfMars12 and SaturnGD47 have been added to the leaderboard and records page! Levels "Flamewave" "Waveopolis" and "Grief Wave" have been added to the upcoming list!</div>
+      </div>
+      <div class="changelog-field">
+        <div class="changelog-label">Reason:</div>
+        <div class="changelog-value">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEADERBOARD -->
+<div class="page" id="page-leaderboard">
+  <div class="page-header">
+    <h2>Leaderboard</h2>
+    <p>All users ranked by list points earned from completing levels on the list</p>
+  </div>
+
+  <div id="leaderboard-content">
+    <div class="loading">Loading leaderboard…</div>
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="page" id="page-submit">
+  <div class="page-header">
+    <h2>Submit</h2>
+    <p>Submit levels and records to the Wavelist</p>
+  </div>
+
+  <!-- Shown when logged out -->
+  <div id="submit-locked" style="display:none">
+    <div class="empty-state">
+      <strong>Sign in required</strong>
+      Please sign in or create an account to submit records and levels to the list
+    </div>
+  </div>
+
+  <!-- Shown when logged in -->
+  <div id="submit-content">
+    <div class="tabs">
+      <button class="tab active" data-tab="submit-record" onclick="showSubmitTab('submit-record')">Submit Record</button>
+      <button class="tab" data-tab="submit-level" onclick="showSubmitTab('submit-level')">Submit Level</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-submit-record">
+      <div class="info-card">
+        <h3>Before You Submit</h3>
+        <p>Please note before submitting a record that your record video must be uploaded to YouTube. Your video may be set to unlisted if you would like.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Record Requirements</h3>
+        <ol>
+          <li>Must contain audible clicks, even on mobile</li>
+          <li>Must contain your full unedited run, including your reaction and at least 3 attempts prior to your successful run</li>
+          <li>Must show the end screen after level completion</li>
+          <li>Must have "show hitboxes on death" enabled (this is now a feature in the base game, but using the modded version of this feature is also allowed)</li>
+          <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
+        </ol>
+      </div>
+
+      <div class="warning-note" style="margin-bottom:1.5rem">
+        <strong>Note:</strong> If your video does not meet all of these requirements, your record may be rejected.
+      </div>
+
+      <div class="info-card">
+        <h3>Submit Your Record</h3>
+        <div class="form-group">
+          <label>Level name</label>
+          <input type="text" id="record-level" placeholder="Enter the level name" oninput="updateRecordSubmit()" />
+        </div>
+        <div class="form-group">
+          <label>Record video (YouTube link)</label>
+          <input type="text" id="record-video" placeholder="https://youtube.com/watch?v=..." oninput="updateRecordSubmit()" />
+        </div>
+        <div class="update-actions" style="margin-top:1.5rem">
+          <button class="btn primary" id="record-submit-btn" onclick="submitRecord()" disabled>Submit Record</button>
+          <button class="btn danger" onclick="openClearModal()">Clear Form</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-submit-level">
+      <div class="info-card">
+        <h3>Before You Submit</h3>
+        <p>Please note before submitting a level that your verification video must be uploaded to YouTube. Your video may be set to unlisted if you would like.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Level Requirements</h3>
+        <ol>
+          <li>Must consist of no other game mode except wave</li>
+          <li>Must not contain any crash triggers</li>
+          <li>Must not be set to unlisted</li>
+        </ol>
+      </div>
+
+      <div class="info-card">
+        <h3>Verification Requirements</h3>
+        <ol>
+          <li>Must contain audible clicks, even on mobile</li>
+          <li>Must contain your full unedited run, including your reaction and at least 3 attempts prior to your successful run</li>
+          <li>Must show the end screen after level completion</li>
+          <li>Must have "show hitboxes on death" enabled (this is now a feature in the base game, but using the modded version of this feature is also allowed)</li>
+          <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
+        </ol>
+      </div>
+
+      <div class="warning-note" style="margin-bottom:1.5rem">
+        <strong>Note:</strong> The level must meet all of the level requirements AND the verification video must meet all of the verification requirements, otherwise the level may be rejected.
+      </div>
+
+      <div class="info-card">
+        <h3>Submit Your Level</h3>
+        <div class="form-group">
+          <label>Level Name</label>
+          <input type="text" id="level-name" placeholder="Enter the level name" oninput="updateLevelSubmit()" />
+        </div>
+        <div class="form-group">
+          <label>Level ID</label>
+          <input type="text" id="level-id" placeholder="Enter the level ID" oninput="updateLevelSubmit()" />
+        </div>
+        <div class="form-group">
+          <label>Creator or creators (Please enter their GD usernames and separate each one with a comma)</label>
+          <input type="text" id="level-creators" placeholder="Creator1, Creator2, Creator3" oninput="updateLevelSubmit()" />
+        </div>
+        <div class="form-group">
+          <label>Who to contact (Please enter their Discord username, note that they must be in the Discord server</label>
+          <input type="text" id="level-contact" placeholder="Discord username" oninput="updateLevelSubmit()" />
+        </div>
+        <div class="form-group">
+          <label>Verifier (Please enter their Wavelist username, if they do not have a Wavelist account please enter their GD username)</label>
+          <input type="text" id="level-verifier" placeholder="Wavelist or GD username" oninput="updateLevelSubmit()" />
+        </div>
+        <div class="form-group">
+          <label>Publisher (Please enter their GD username)</label>
+          <input type="text" id="level-publisher" placeholder="GD username" oninput="updateLevelSubmit()" />
+        </div>
+        <div class="form-group">
+          <label>Verification video (Please enter YouTube link)</label>
+          <input type="text" id="level-video" placeholder="https://youtube.com/watch?v=..." oninput="updateLevelSubmit()" />
+        </div>
+
+        <div class="warning-note" style="margin-top:1.5rem; background:rgba(79,140,255,0.1); border-color:rgba(79,140,255,0.35);">
+          <strong style="color:var(--accent-2);">Note:</strong> Please note that the thumbnail to your YouTube video will be the same thumbnail used in the listing
+        </div>
+
+        <div class="update-actions" style="margin-top:1.5rem">
+          <button class="btn primary" id="level-submit-btn" onclick="submitLevel()" disabled>Submit Level</button>
+          <button class="btn danger" onclick="openClearLevelModal()">Clear Form</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT -->
+<div class="page" id="page-account">
+  <div class="page-header">
+    <h2>Account</h2>
+    <p id="account-subtitle">Sign in or create an account</p>
+  </div>
+
+  <div id="auth-view">
+    <!-- LOGIN -->
+    <div class="card auth-card" id="login-card">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-user" placeholder="Your username" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-pass" placeholder="Your password" />
+      </div>
+      <button class="btn primary" style="width:100%" onclick="login()" id="login-btn">Log In</button>
+      <div class="auth-switch">
+        No account? <button onclick="switchAuth('signup')">Sign up</button>
+      </div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div class="card auth-card" id="signup-card" style="display:none">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="su-user" placeholder="Pick a username" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="su-pass" placeholder="Pick a password" />
+      </div>
+      <div class="form-group">
+        <label>GD Username</label>
+        <input type="text" id="su-gd" placeholder="Your GD username" />
+      </div>
+      <div class="form-group">
+        <label>Discord Username</label>
+        <input type="text" id="su-discord" placeholder="Your Discord username" />
+      </div>
+      <button class="btn primary" style="width:100%" onclick="signup()" id="signup-btn">Create Account</button>
+      <div class="auth-switch">
+        Already have an account? <button onclick="switchAuth('login')">Log in</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGGED IN -->
+  <div id="profile-view" style="display:none">
+    <div class="card">
+      <div class="account-info">
+        <div class="info-row"><span>Username</span><span id="p-user">—</span></div>
+        <div class="info-row"><span>Geometry Dash</span><span id="p-gd">—</span></div>
+        <div class="info-row"><span>Discord</span><span id="p-discord">—</span></div>
+      </div>
+
+      <div class="update-section">
+        <h3>Change Username</h3>
+        <div class="form-group">
+          <input type="text" id="new-user" placeholder="New username" />
+        </div>
+        <div class="update-actions">
+          <button class="btn" onclick="changeUsername()">Update Username</button>
+        </div>
+      </div>
+
+      <div class="update-section">
+        <h3>Change GD Username</h3>
+        <div class="form-group">
+          <input type="text" id="new-gd" placeholder="New GD username" />
+        </div>
+        <div class="update-actions">
+          <button class="btn" onclick="changeGD()">Update GD User</button>
+        </div>
+      </div>
+
+      <div class="update-section">
+        <h3>Change Discord Username</h3>
+        <div class="form-group">
+          <input type="text" id="new-discord" placeholder="New Discord username" />
+        </div>
+        <div class="update-actions">
+          <button class="btn" onclick="changeDiscord()">Update Discord</button>
+        </div>
+      </div>
+
+      <div class="update-actions" style="margin-top:2rem">
+        <button class="btn danger" onclick="logout()">Log Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Discord callout -->
+<div class="discord-callout">
+  This website is intended for members of our Discord server. Not a member yet?
+  <a href="https://discord.gg/SbCD9PZ6zT" target="_blank" rel="noopener">Join here</a>.
+</div>
+
+<footer>
+  Wavelist 2026 · SaturnGD47
+</footer>
+
+<!-- Clear record form confirmation modal -->
+<div class="modal-overlay" id="clear-modal">
+  <div class="modal">
+    <h3>Clear form?</h3>
+    <p>Are you sure you want to clear all the fields in this form? This can't be undone.</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeClearModal()">Cancel</button>
+      <button class="btn danger" onclick="confirmClear()">Clear Form</button>
+    </div>
+  </div>
+</div>
+
+<!-- Clear level form confirmation modal -->
+<div class="modal-overlay" id="clear-level-modal">
+  <div class="modal">
+    <h3>Clear form?</h3>
+    <p>Are you sure you want to clear all the fields in this form? This can't be undone.</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeClearLevelModal()">Cancel</button>
+      <button class="btn danger" onclick="confirmClearLevel()">Clear Form</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ============================================================
+     SUPABASE SETUP
+     ============================================================ */
+  const SUPABASE_URL = 'https://lybkbfuwxpvhrwtiqmkj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5YmtiZnV3eHB2aHJ3dGlxbWtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk4NjM3MTUsImV4cCI6MjEwNTQzOTcxNX0.-if6YoA2tOXeNclHEnZ5GYAKkTbaQCzufLe5gXRt-_M';
+
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  /* ============================================================
+     PAGE ROUTING
+     ============================================================ */
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.querySelectorAll('.nav-links button').forEach(b => {
+      b.classList.toggle('active', b.dataset.page === name);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (name === 'leaderboard') renderLeaderboard();
+    if (name === 'submit') updateSubmitGate();
+  }
+
+  /* ============================================================
+     TABS
+     ============================================================ */
+  function showTab(name) {
+    document.querySelectorAll('#page-list .tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === name);
+    });
+    document.querySelectorAll('#page-list .tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+
+  function showSubmitTab(name) {
+    document.querySelectorAll('#page-submit .tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === name);
+    });
+    document.querySelectorAll('#page-submit .tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+
+  /* ============================================================
+     SUBMIT PAGE GATE
+     ============================================================ */
+  let currentUserLoggedIn = false;
+
+  function updateSubmitGate() {
+    const locked  = document.getElementById('submit-locked');
+    const content = document.getElementById('submit-content');
+    if (currentUserLoggedIn) {
+      locked.style.display  = 'none';
+      content.style.display = 'block';
+    } else {
+      locked.style.display  = 'block';
+      content.style.display = 'none';
+    }
+  }
+
+  /* ============================================================
+     TOAST
+     ============================================================ */
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+  }
+
+  /* ============================================================
+     AUTH SWITCHING
+     ============================================================ */
+  function switchAuth(mode) {
+    document.getElementById('login-card').style.display  = mode === 'login'  ? 'block' : 'none';
+    document.getElementById('signup-card').style.display = mode === 'signup' ? 'block' : 'none';
+  }
+
+  /* ============================================================
+     HELPERS
+     ============================================================ */
+  function usernameToEmail(username) {
+    return username.toLowerCase() + '@wavelist.local';
+  }
+
+  function setLoading(btnId, isLoading, loadingText, defaultText) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.disabled = isLoading;
+    btn.textContent = isLoading ? loadingText : defaultText;
+  }
+
+  /* ============================================================
+     SIGNUP
+     ============================================================ */
+  async function signup() {
+    const username = document.getElementById('su-user').value.trim();
+    const password = document.getElementById('su-pass').value;
+    const gd       = document.getElementById('su-gd').value.trim();
+    const discord  = document.getElementById('su-discord').value.trim();
+
+    if (!username || !password || !gd || !discord) {
+      return toast('Please fill in all fields.');
+    }
+
+    setLoading('signup-btn', true, 'Creating account…', 'Create Account');
+
+    const { data: existing, error: checkError } = await supabaseClient
+      .from('profiles')
+      .select('username')
+      .eq('username', username)
+      .maybeSingle();
+
+    if (checkError) {
+      setLoading('signup-btn', false, '', 'Create Account');
+      return toast('Error checking username: ' + checkError.message);
+    }
+
+    if (existing) {
+      setLoading('signup-btn', false, '', 'Create Account');
+      return toast('That username is already taken.');
+    }
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email: usernameToEmail(username),
+      password: password,
+      options: {
+        data: {
+          username: username,
+          gd_username: gd,
+          discord_username: discord
+        }
+      }
+    });
+
+    if (error) {
+      setLoading('signup-btn', false, '', 'Create Account');
+      return toast('Signup failed: ' + error.message);
+    }
+
+    setLoading('signup-btn', false, '', 'Create Account');
+
+    document.getElementById('su-user').value = '';
+    document.getElementById('su-pass').value = '';
+    document.getElementById('su-gd').value = '';
+    document.getElementById('su-discord').value = '';
+
+    toast('Account created! You are now logged in.');
+    await refreshAuthState();
+  }
+
+  /* ============================================================
+     LOGIN
+     ============================================================ */
+  async function login() {
+    const username = document.getElementById('login-user').value.trim();
+    const password = document.getElementById('login-pass').value;
+
+    if (!username || !password) {
+      return toast('Please enter your username and password.');
+    }
+
+    setLoading('login-btn', true, 'Logging in…', 'Log In');
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email: usernameToEmail(username),
+      password: password
+    });
+
+    setLoading('login-btn', false, '', 'Log In');
+
+    if (error) {
+      return toast('Invalid username or password.');
+    }
+
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+
+    toast('Logged in!');
+    await refreshAuthState();
+  }
+
+  /* ============================================================
+     LOGOUT
+     ============================================================ */
+  async function logout() {
+    await supabaseClient.auth.signOut();
+    toast('Logged out.');
+    await refreshAuthState();
+  }
+
+  /* ============================================================
+     CHANGE USERNAME
+     ============================================================ */
+  async function changeUsername() {
+    const newName = document.getElementById('new-user').value.trim();
+    if (!newName) return toast('Enter a new username.');
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return toast('You are not logged in.');
+
+    const { data: existing } = await supabaseClient
+      .from('profiles')
+      .select('username')
+      .eq('username', newName)
+      .maybeSingle();
+
+    if (existing) return toast('That username is already taken.');
+
+    const { error } = await supabaseClient
+      .from('profiles')
+      .update({ username: newName })
+      .eq('id', user.id);
+
+    if (error) return toast('Update failed: ' + error.message);
+
+    toast('Username updated.');
+    await refreshAuthState();
+  }
+
+  /* ============================================================
+     CHANGE GD USERNAME
+     ============================================================ */
+  async function changeGD() {
+    const newGD = document.getElementById('new-gd').value.trim();
+    if (!newGD) return toast('Enter a new GD username.');
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return toast('You are not logged in.');
+
+    const { error } = await supabaseClient
+      .from('profiles')
+      .update({ gd_username: newGD })
+      .eq('id', user.id);
+
+    if (error) return toast('Update failed: ' + error.message);
+
+    toast('GD username updated.');
+    await refreshAuthState();
+  }
+
+  /* ============================================================
+     CHANGE DISCORD USERNAME
+     ============================================================ */
+  async function changeDiscord() {
+    const newDisc = document.getElementById('new-discord').value.trim();
+    if (!newDisc) return toast('Enter a new Discord username.');
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return toast('You are not logged in.');
+
+    const { error } = await supabaseClient
+      .from('profiles')
+      .update({ discord_username: newDisc })
+      .eq('id', user.id);
+
+    if (error) return toast('Update failed: ' + error.message);
+
+    toast('Discord username updated.');
+    await refreshAuthState();
+  }
+
+  /* ============================================================
+     REFRESH AUTH STATE
+     ============================================================ */
+  async function refreshAuthState() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    currentUserLoggedIn = !!user;
+
+    const authView    = document.getElementById('auth-view');
+    const profileView = document.getElementById('profile-view');
+    const subtitle    = document.getElementById('account-subtitle');
+
+    if (user) {
+      const { data: profile, error } = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error || !profile) {
+        console.error('Profile fetch error:', error);
+        authView.style.display = 'block';
+        profileView.style.display = 'none';
+        subtitle.textContent = 'Sign in or create an account';
+      } else {
+        authView.style.display = 'none';
+        profileView.style.display = 'block';
+        subtitle.textContent = 'Manage your account';
+        document.getElementById('p-user').textContent    = profile.username;
+        document.getElementById('p-gd').textContent      = profile.gd_username;
+        document.getElementById('p-discord').textContent = profile.discord_username;
+        document.getElementById('new-user').value = '';
+        document.getElementById('new-gd').value = '';
+        document.getElementById('new-discord').value = '';
+      }
+    } else {
+      authView.style.display = 'block';
+      profileView.style.display = 'none';
+      subtitle.textContent = 'Sign in or create an account';
+    }
+
+    renderHeroAuthButtons(!!user);
+    updateSubmitGate();
+  }
+
+  /* ============================================================
+     HOME PAGE AUTH BUTTONS
+     ============================================================ */
+  function renderHeroAuthButtons(loggedIn) {
+    const container = document.getElementById('hero-auth-buttons');
+
+    if (loggedIn) {
+      container.innerHTML = `
+        <button class="btn" onclick="showPage('account')">View Account</button>
+        <button class="btn danger" onclick="logout()">Sign Out</button>
+      `;
+    } else {
+      container.innerHTML = `
+        <button class="btn" onclick="showPage('account')">Sign In</button>
+      `;
+    }
+  }
+
+  /* ============================================================
+     LEADERBOARD
+     ============================================================ */
+  async function renderLeaderboard() {
+    const container = document.getElementById('leaderboard-content');
+    container.innerHTML = '<div class="loading">Loading leaderboard…</div>';
+
+    const { data: profiles, error } = await supabaseClient
+      .from('profiles')
+      .select('username, gd_username, discord_username, points')
+      .order('points', { ascending: false })
+      .limit(100);
+
+    if (error) {
+      container.innerHTML = `<div class="empty-state"><strong>Couldn't load leaderboard</strong>${error.message}</div>`;
+      return;
+    }
+
+    if (!profiles || profiles.length === 0) {
+      container.innerHTML = `<div class="empty-state"><strong>No players yet</strong>Once people sign up and complete levels, they'll appear here.</div>`;
+      return;
+    }
+
+    container.innerHTML = profiles.map((p, i) => {
+      const rank = i + 1;
+      let rankClass = '';
+      if (rank === 1) rankClass = 'top1';
+      else if (rank === 2) rankClass = 'top2';
+      else if (rank === 3) rankClass = 'top3';
+
+      const points = Number(p.points || 0).toFixed(1);
+
+      return `
+        <div class="list-row">
+          <div class="rank ${rankClass}">${rank}</div>
+          <div>
+            <div class="row-name">${escapeHtml(p.username)}</div>
+            <div class="row-sub">${escapeHtml(p.gd_username)} | ${escapeHtml(p.discord_username)}</div>
+          </div>
+          <div class="row-stat">${points} pts</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  /* ============================================================
+     RECORD SUBMIT FORM
+     ============================================================ */
+  function updateRecordSubmit() {
+    const level = document.getElementById('record-level').value.trim();
+    const video = document.getElementById('record-video').value.trim();
+    const btn = document.getElementById('record-submit-btn');
+    btn.disabled = !(level && video);
+  }
+
+  function submitRecord() {
+    // Intentionally empty — will be wired up later
+  }
+
+  function openClearModal() {
+    document.getElementById('clear-modal').classList.add('show');
+  }
+
+  function closeClearModal() {
+    document.getElementById('clear-modal').classList.remove('show');
+  }
+
+  function confirmClear() {
+    document.getElementById('record-level').value = '';
+    document.getElementById('record-video').value = '';
+    updateRecordSubmit();
+    closeClearModal();
+    toast('Form cleared.');
+  }
+
+  document.getElementById('clear-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'clear-modal') closeClearModal();
+  });
+
+  /* ============================================================
+     LEVEL SUBMIT FORM
+     ============================================================ */
+  function updateLevelSubmit() {
+    const fields = [
+      'level-name',
+      'level-id',
+      'level-creators',
+      'level-contact',
+      'level-verifier',
+      'level-publisher',
+      'level-video'
+    ];
+    const allFilled = fields.every(id => document.getElementById(id).value.trim() !== '');
+    document.getElementById('level-submit-btn').disabled = !allFilled;
+  }
+
+  function submitLevel() {
+    // Intentionally empty — will be wired up later
+  }
+
+  function openClearLevelModal() {
+    document.getElementById('clear-level-modal').classList.add('show');
+  }
+
+  function closeClearLevelModal() {
+    document.getElementById('clear-level-modal').classList.remove('show');
+  }
+
+  function confirmClearLevel() {
+    const fields = [
+      'level-name',
+      'level-id',
+      'level-creators',
+      'level-contact',
+      'level-verifier',
+      'level-publisher',
+      'level-video'
+    ];
+    fields.forEach(id => document.getElementById(id).value = '');
+    updateLevelSubmit();
+    closeClearLevelModal();
+    toast('Form cleared.');
+  }
+
+  document.getElementById('clear-level-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'clear-level-modal') closeClearLevelModal();
+  });
+
+  /* ============================================================
+     INITIALIZE
+     ============================================================ */
+  (async function init() {
+    await refreshAuthState();
+    supabaseClient.auth.onAuthStateChange(() => {
+      refreshAuthState();
+    });
+  })();
+</script>
+
+</body>
+</html>
