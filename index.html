@@ -607,7 +607,8 @@
     margin-bottom: 0.5rem;
     color: var(--text-dim);
   }
-  .form-group input {
+  .form-group input,
+  .form-group select {
     width: 100%;
     padding: 0.85rem 1rem;
     font-family: inherit;
@@ -619,9 +620,24 @@
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
-  .form-group input:focus {
+  .form-group input:focus,
+  .form-group select:focus {
     border-color: var(--accent-1);
     box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+  }
+  .form-group select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0a0b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem;
+  }
+  .form-group select option {
+    background: #12121f;
+    color: var(--text);
   }
 
   /* Profile update sections */
@@ -1191,8 +1207,14 @@
       <div class="info-card">
         <h3>Submit Your Record</h3>
         <div class="form-group">
-          <label>Level name</label>
-          <input type="text" id="record-level" placeholder="Enter the level name" oninput="updateRecordSubmit()" />
+          <label>Level</label>
+          <select id="record-level" onchange="updateRecordSubmit()">
+            <option value="">Loading levels…</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Percent</label>
+          <input type="number" id="record-percent" min="0" max="100" placeholder="Enter percent (0-100)" oninput="updateRecordSubmit()" />
         </div>
         <div class="form-group">
           <label>Record video (YouTube link)</label>
@@ -1796,10 +1818,16 @@
      RECORD SUBMIT FORM
      ============================================================ */
   function updateRecordSubmit() {
-    const level = document.getElementById('record-level').value.trim();
-    const video = document.getElementById('record-video').value.trim();
+    const level   = document.getElementById('record-level').value;
+    const percent = document.getElementById('record-percent').value.trim();
+    const video   = document.getElementById('record-video').value.trim();
     const btn = document.getElementById('record-submit-btn');
-    btn.disabled = !(level && video);
+
+    // All three required, and percent must be a valid number between 0 and 100
+    const percentNum = Number(percent);
+    const validPercent = percent !== '' && !isNaN(percentNum) && percentNum >= 0 && percentNum <= 100;
+
+    btn.disabled = !(level && validPercent && video);
   }
 
   function submitRecord() {
@@ -1816,6 +1844,7 @@
 
   function confirmClear() {
     document.getElementById('record-level').value = '';
+    document.getElementById('record-percent').value = '';
     document.getElementById('record-video').value = '';
     updateRecordSubmit();
     closeClearModal();
@@ -1876,10 +1905,23 @@
   });
 
   /* ============================================================
+     LOAD LEVELS INTO RECORD DROPDOWN
+     Currently a placeholder — will be filled in once the
+     `levels` table exists in Supabase.
+     ============================================================ */
+  async function loadRecordLevels() {
+    const select = document.getElementById('record-level');
+    // Placeholder — do nothing until the levels table is set up.
+    // When ready, this will fetch from supabase and populate the dropdown.
+    select.innerHTML = '<option value="">No levels available yet</option>';
+  }
+
+  /* ============================================================
      INITIALIZE
      ============================================================ */
   (async function init() {
     await refreshAuthState();
+    await loadRecordLevels();
     supabaseClient.auth.onAuthStateChange(() => {
       refreshAuthState();
     });
