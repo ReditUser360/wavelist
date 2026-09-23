@@ -77,6 +77,13 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--glass-border);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  nav::-webkit-scrollbar {
+    display: none;
   }
   .logo {
     font-weight: 800;
@@ -87,11 +94,13 @@
     background-clip: text;
     color: transparent;
     cursor: pointer;
+    flex-shrink: 0;
   }
   .nav-links {
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    flex-shrink: 0;
   }
   .nav-links button {
     background: transparent;
@@ -104,6 +113,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
   }
   .nav-links button:hover {
     color: var(--text);
