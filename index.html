@@ -1292,7 +1292,7 @@
         <h3>Record Requirements</h3>
         <ol>
           <li>Must contain audible clicks, even on mobile</li>
-          <li>Must contain your full unedited run, including your reaction and at least 3 attempts prior to your successful run</li>
+          <li>Must contain your full unedited run, including your reaction if you had one</li>
           <li>Must show the end screen after level completion</li>
           <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack</li>
           <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
@@ -1345,7 +1345,7 @@
         <h3>Verification Requirements</h3>
         <ol>
           <li>Must contain audible clicks, even on mobile</li>
-          <li>Must contain your full unedited run, including your reaction and at least 3 attempts prior to your successful run</li>
+          <li>Must contain your full unedited run, including your reaction if you had one</li>
           <li>Must show the end screen after level completion</li>
           <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack</li>
           <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
@@ -1600,7 +1600,7 @@
     el.textContent = msg;
     el.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
   }
 
   /* ============================================================
@@ -2079,8 +2079,61 @@
     btn.disabled = !(level && validPercent && video);
   }
 
-  function submitRecord() {
-    // Intentionally empty — will be wired up later
+  async function submitRecord() {
+    // Gather form values
+    const levelId  = document.getElementById('record-level').value;
+    const percent  = Number(document.getElementById('record-percent').value.trim());
+    const videoUrl = document.getElementById('record-video').value.trim();
+
+    // Sanity checks (button should already be disabled, but be safe)
+    if (!levelId || !videoUrl || isNaN(percent) || percent < 0 || percent > 100) {
+      return toast('Please fill in all fields with valid values.');
+    }
+
+    // Confirm the user is logged in
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+      return toast('You must be signed in to submit a record.');
+    }
+
+    setLoading('record-submit-btn', true, 'Submitting…', 'Submit Record');
+
+    // Look up the level name so we can store it as a snapshot
+    const { data: levelData, error: levelError } = await supabaseClient
+      .from('levels')
+      .select('name')
+      .eq('id', levelId)
+      .single();
+
+    if (levelError || !levelData) {
+      setLoading('record-submit-btn', false, '', 'Submit Record');
+      return toast('Could not find the selected level.');
+    }
+
+    // Insert the record — status defaults to 'pending' and submitted_at is auto
+    const { error: insertError } = await supabaseClient
+      .from('records')
+      .insert({
+        user_id: user.id,
+        level_id: Number(levelId),
+        level_name: levelData.name,
+        percent: percent,
+        video_url: videoUrl
+      });
+
+    setLoading('record-submit-btn', false, '', 'Submit Record');
+
+    if (insertError) {
+      return toast('Submission failed: ' + insertError.message);
+    }
+
+    // Success — clear the form and notify the user
+    document.getElementById('record-level').value = '';
+    document.getElementById('record-percent').value = '';
+    document.getElementById('record-video').value = '';
+    updateRecordSubmit();
+
+    toast('Record submitted! An editor will review it soon.');
   }
 
   function openClearModal() {
