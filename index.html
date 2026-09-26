@@ -33,7 +33,6 @@
     overflow-x: hidden;
   }
 
-  /* Animated background orbs */
   body::before, body::after {
     content: '';
     position: fixed;
@@ -64,7 +63,6 @@
     50% { transform: translate(-100px, -80px); }
   }
 
-  /* Nav */
   nav {
     position: sticky;
     top: 0;
@@ -124,7 +122,6 @@
     background: var(--glass-bg);
   }
 
-  /* Pages */
   .page {
     display: none;
     position: relative;
@@ -141,7 +138,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Hero */
   .hero {
     text-align: center;
     padding: 3rem 0 4rem;
@@ -171,7 +167,6 @@
     flex-wrap: wrap;
   }
 
-  /* Development warning */
   .dev-warning {
     background: rgba(255, 92, 122, 0.12);
     border: 1px solid rgba(255, 92, 122, 0.5);
@@ -191,7 +186,6 @@
     font-weight: 700;
   }
 
-  /* Feature boxes */
   .feature-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -237,7 +231,6 @@
     line-height: 1.6;
   }
 
-  /* Buttons */
   .btn {
     font-family: inherit;
     font-weight: 600;
@@ -291,7 +284,6 @@
     box-shadow: 0 8px 24px rgba(255, 92, 122, 0.2);
   }
 
-  /* Glass cards */
   .card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -302,7 +294,6 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   }
 
-  /* Page headers */
   .page-header {
     margin-bottom: 2rem;
   }
@@ -317,7 +308,6 @@
     font-size: 1rem;
   }
 
-  /* Tabs */
   .tabs {
     display: flex;
     gap: 0.5rem;
@@ -359,7 +349,6 @@
   }
   .tab-panel.active { display: block; }
 
-  /* List rows (leaderboard) */
   .list-row {
     display: grid;
     grid-template-columns: 60px 1fr auto;
@@ -373,6 +362,7 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     transition: transform 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
   }
   .list-row:hover {
     transform: translateX(4px);
@@ -402,7 +392,6 @@
     font-size: 1.05rem;
   }
 
-  /* Level rows (mainlist) */
   .level-row {
     display: grid;
     grid-template-columns: 240px 1fr auto;
@@ -416,6 +405,7 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     transition: transform 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
   }
   .level-row:hover {
     transform: translateY(-2px);
@@ -437,6 +427,10 @@
   }
   .level-info {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
   }
   .level-title {
     font-weight: 700;
@@ -463,6 +457,12 @@
     font-size: 0.9rem;
     color: var(--text-dim);
     word-break: break-word;
+  }
+  .level-submitted {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    opacity: 0.75;
+    margin-top: 0.5rem;
   }
   .level-points {
     font-weight: 800;
@@ -492,7 +492,6 @@
     margin-bottom: 0.5rem;
   }
 
-  /* Loading indicator */
   .loading {
     text-align: center;
     padding: 3rem 2rem;
@@ -500,7 +499,6 @@
     font-size: 1rem;
   }
 
-  /* Info card (for submit instructions) */
   .info-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -550,7 +548,6 @@
     color: var(--danger);
   }
 
-  /* Changelog entries */
   .changelog-entry {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -594,7 +591,6 @@
     font-size: 0.98rem;
   }
 
-  /* Upcoming list cards */
   .upcoming-list {
     display: grid;
     gap: 1.25rem;
@@ -681,7 +677,6 @@
     color: var(--text);
   }
 
-  /* Forms */
   .form-group {
     margin-bottom: 1.25rem;
   }
@@ -725,7 +720,6 @@
     color: var(--text);
   }
 
-  /* Profile update sections */
   .update-section {
     margin-bottom: 1.5rem;
   }
@@ -785,7 +779,6 @@
     font-weight: 600;
   }
 
-  /* Discord callout */
   .discord-callout {
     position: relative;
     z-index: 1;
@@ -814,7 +807,6 @@
     border-color: var(--accent-1);
   }
 
-  /* Modal */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -862,6 +854,445 @@
     flex-wrap: wrap;
   }
 
+  .profile-modal {
+    position: relative;
+    background: rgba(18, 18, 31, 0.9);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 2.5rem 2rem;
+    max-width: 560px;
+    width: 100%;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease;
+  }
+  .profile-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2;
+  }
+  .profile-modal-close:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(124, 92, 255, 0.4);
+  }
+  .profile-modal-close:active {
+    transform: scale(0.92);
+  }
+  .profile-modal-name {
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #fff 0%, #b8b8d8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-right: 2.5rem;
+    word-break: break-word;
+  }
+  .profile-modal-sub {
+    font-size: 1rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    word-break: break-word;
+    margin-bottom: 1.75rem;
+  }
+  .profile-modal-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .profile-stat-card {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+    user-select: none;
+  }
+  .profile-stat-card:hover {
+    border-color: rgba(124, 92, 255, 0.5);
+    background: rgba(124, 92, 255, 0.08);
+    transform: translateY(-2px);
+  }
+  .profile-stat-card:active {
+    transform: scale(0.98);
+  }
+  .profile-stat-card.expanded {
+    border-color: rgba(124, 92, 255, 0.6);
+    background: rgba(124, 92, 255, 0.1);
+  }
+  .profile-stat-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+    word-break: break-word;
+  }
+  .profile-stat-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .profile-modal-rank-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0;
+  }
+  .profile-rank-box {
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    padding: 0.9rem 1rem;
+    background: rgba(124, 92, 255, 0.1);
+    border: 1px solid rgba(124, 92, 255, 0.35);
+    border-radius: 14px;
+  }
+  .profile-stat-panel {
+    display: none;
+    margin-top: 1rem;
+    padding: 1.25rem 1.25rem 1.25rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    animation: fadeIn 0.25s ease;
+  }
+  .profile-stat-panel.show {
+    display: block;
+  }
+  .profile-stat-panel-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .profile-stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 260px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+  .profile-stat-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .profile-stat-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .profile-stat-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+  }
+  .profile-stat-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .profile-stat-item {
+    font-size: 0.95rem;
+    color: var(--text);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  .profile-stat-item.clickable {
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .profile-stat-item.clickable:hover {
+    background: rgba(124, 92, 255, 0.12);
+    border-color: rgba(124, 92, 255, 0.35);
+  }
+  .profile-stat-item-percent {
+    color: var(--accent-2);
+    font-weight: 700;
+    margin-left: 0.35rem;
+  }
+  .profile-stat-empty {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-style: italic;
+    padding: 0.5rem 0.25rem 0.75rem;
+  }
+
+  .level-modal {
+    position: relative;
+    background: rgba(18, 18, 31, 0.92);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 2.5rem 2rem;
+    max-width: 1000px;
+    width: 100%;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease;
+  }
+  .level-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2;
+  }
+  .level-modal-close:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(124, 92, 255, 0.4);
+  }
+  .level-modal-close:active {
+    transform: scale(0.92);
+  }
+  .level-modal-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+    margin-bottom: 2rem;
+    align-items: start;
+  }
+  .level-modal-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+  }
+  .level-modal-video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .level-modal-info {
+    padding-right: 2.5rem;
+    min-width: 0;
+  }
+  .level-modal-title {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, #b8b8d8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    word-break: break-word;
+  }
+  .level-modal-id {
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    border-bottom: 1px dashed rgba(124, 92, 255, 0.5);
+    transition: border-color 0.2s ease;
+  }
+  .level-modal-id:hover {
+    border-color: var(--accent-1);
+  }
+  .level-modal-info-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+  .level-modal-info-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    padding-top: 0.1rem;
+  }
+  .level-modal-info-value {
+    font-size: 1rem;
+    color: var(--text);
+    word-break: break-word;
+  }
+
+  .level-modal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .level-stat-card {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+    user-select: none;
+    text-align: left;
+  }
+  .level-stat-card:hover {
+    border-color: rgba(124, 92, 255, 0.5);
+    background: rgba(124, 92, 255, 0.08);
+    transform: translateY(-2px);
+  }
+  .level-stat-card:active {
+    transform: scale(0.98);
+  }
+  .level-stat-card.expanded {
+    border-color: rgba(124, 92, 255, 0.6);
+    background: rgba(124, 92, 255, 0.1);
+  }
+  .level-stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+    word-break: break-word;
+  }
+  .level-stat-label {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .level-stat-panel {
+    display: none;
+    margin-top: 1.25rem;
+    padding: 1.5rem 1.5rem 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    animation: fadeIn 0.25s ease;
+  }
+  .level-stat-panel.show {
+    display: block;
+  }
+  .level-stat-panel-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .level-stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.35rem;
+  }
+  .level-stat-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .level-stat-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .level-stat-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+  }
+  .level-stat-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .level-stat-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.98rem;
+    color: var(--text);
+    padding: 0.65rem 0.9rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    line-height: 1.4;
+    word-break: break-word;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .level-stat-item:hover {
+    background: rgba(124, 92, 255, 0.12);
+    border-color: rgba(124, 92, 255, 0.35);
+  }
+  .level-stat-item-name {
+    font-weight: 600;
+    min-width: 0;
+  }
+  .level-stat-item-sub {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .level-stat-item-percent {
+    color: var(--accent-2);
+    font-weight: 700;
+  }
+  .level-stat-empty {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    font-style: italic;
+    padding: 0.5rem 0.25rem 0.85rem;
+  }
+
   .toast {
     position: fixed;
     bottom: 2rem;
@@ -892,6 +1323,15 @@
     font-size: 0.85rem;
   }
 
+  @media (max-width: 900px) {
+    .level-modal-header {
+      grid-template-columns: 1fr;
+    }
+    .level-modal-info {
+      padding-right: 0;
+    }
+  }
+
   @media (max-width: 640px) {
     nav { padding: 0.85rem 1rem; }
     .nav-links button { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
@@ -908,7 +1348,6 @@
     .row-name { font-size: 0.95rem; }
     .row-stat { font-size: 0.95rem; }
 
-    /* Level row stacks on mobile */
     .level-row {
       grid-template-columns: 1fr;
       gap: 1rem;
@@ -944,6 +1383,15 @@
     .upcoming-info { grid-template-columns: 1fr; gap: 0.25rem; }
     .upcoming-name { font-size: 1.15rem; }
     .upcoming-rank { font-size: 1.25rem; }
+    .profile-modal { padding: 2rem 1.5rem 1.5rem; }
+    .profile-modal-close { top: 1rem; right: 1rem; }
+    .profile-stat-value { font-size: 1.5rem; }
+
+    .level-modal { padding: 2rem 1.25rem 1.5rem; }
+    .level-modal-close { top: 1rem; right: 1rem; }
+    .level-modal-stats { grid-template-columns: 1fr; gap: 0.75rem; }
+    .level-modal-info-row { grid-template-columns: 1fr; gap: 0.2rem; }
+    .level-stat-item { grid-template-columns: 1fr; gap: 0.35rem; }
   }
 </style>
 </head>
@@ -975,7 +1423,6 @@
       <button class="btn" onclick="showPage('submit')">Submit</button>
     </div>
 
-    <!-- Auth-dependent buttons -->
     <div class="hero-buttons" id="hero-auth-buttons" style="margin-top:1rem"></div>
   </div>
 
@@ -1267,7 +1714,6 @@
     <p>Submit levels and records to the Wavelist</p>
   </div>
 
-  <!-- Shown when logged out -->
   <div id="submit-locked" style="display:none">
     <div class="empty-state">
       <strong>Sign in required</strong>
@@ -1275,7 +1721,6 @@
     </div>
   </div>
 
-  <!-- Shown when logged in -->
   <div id="submit-content">
     <div class="tabs">
       <button class="tab active" data-tab="submit-record" onclick="showSubmitTab('submit-record')">Submit Record</button>
@@ -1375,8 +1820,10 @@
           <input type="text" id="level-contact" placeholder="Please enter a valid phone number, email address, or Discord username" oninput="updateLevelSubmit()" />
         </div>
         <div class="form-group">
-          <label>Verifier (Please enter their Wavelist username, if they do not have a Wavelist account please enter their GD username)</label>
-          <input type="text" id="level-verifier" placeholder="Wavelist or GD username" oninput="updateLevelSubmit()" />
+          <label>Verifier</label>
+          <select id="level-verifier" onchange="updateLevelSubmit()">
+            <option value="">Loading users…</option>
+          </select>
         </div>
         <div class="form-group">
           <label>Publisher (Please enter their GD username)</label>
@@ -1408,7 +1855,6 @@
   </div>
 
   <div id="auth-view">
-    <!-- LOGIN -->
     <div class="card auth-card" id="login-card">
       <div class="form-group">
         <label>Username</label>
@@ -1424,7 +1870,6 @@
       </div>
     </div>
 
-    <!-- SIGNUP -->
     <div class="card auth-card" id="signup-card" style="display:none">
       <div class="form-group">
         <label>Username</label>
@@ -1449,7 +1894,6 @@
     </div>
   </div>
 
-  <!-- LOGGED IN -->
   <div id="profile-view" style="display:none">
     <div class="card">
       <div class="account-info">
@@ -1495,7 +1939,6 @@
   </div>
 </div>
 
-<!-- Discord callout -->
 <div class="discord-callout">
   This website is intended for members of our Discord server. Not a member yet?
   <a href="https://discord.gg/SbCD9PZ6zT" target="_blank" rel="noopener">Join here</a>.
@@ -1529,6 +1972,88 @@
   </div>
 </div>
 
+<!-- Profile popup modal -->
+<div class="modal-overlay" id="profile-modal">
+  <div class="profile-modal">
+    <button class="profile-modal-close" onclick="closeProfileModal()" title="Close">&times;</button>
+    <div class="profile-modal-name" id="profile-modal-name">—</div>
+    <div class="profile-modal-sub" id="profile-modal-sub">—</div>
+    <div class="profile-modal-stats">
+      <div class="profile-stat-card" id="stat-card-completions" onclick="toggleStatPanel('completions')">
+        <div class="profile-stat-value" id="profile-stat-completions">—</div>
+        <div class="profile-stat-label">Completions</div>
+      </div>
+      <div class="profile-stat-card" id="stat-card-records" onclick="toggleStatPanel('records')">
+        <div class="profile-stat-value" id="profile-stat-records">—</div>
+        <div class="profile-stat-label">Records</div>
+      </div>
+      <div class="profile-stat-card" id="stat-card-pending" onclick="toggleStatPanel('pending')">
+        <div class="profile-stat-value" id="profile-stat-pending">—</div>
+        <div class="profile-stat-label">Pending Records</div>
+      </div>
+      <div class="profile-stat-card" id="stat-card-levels" onclick="toggleStatPanel('levels')">
+        <div class="profile-stat-value" id="profile-stat-levels">—</div>
+        <div class="profile-stat-label">Submitted Levels</div>
+      </div>
+    </div>
+    <div class="profile-stat-panel" id="profile-stat-panel">
+      <div class="profile-stat-panel-title" id="profile-stat-panel-title">—</div>
+      <div class="profile-stat-list" id="profile-stat-list">
+        <div class="profile-stat-empty">No items to display.</div>
+      </div>
+    </div>
+    <div class="profile-modal-rank-row" id="profile-modal-rank-row" style="margin-top:1.25rem">
+      <div class="profile-rank-box" id="profile-rank-box">Ranked #—</div>
+      <div class="profile-rank-box" id="profile-points-box">— pts</div>
+    </div>
+  </div>
+</div>
+
+<!-- Level details popup modal -->
+<div class="modal-overlay" id="level-modal">
+  <div class="level-modal">
+    <button class="level-modal-close" onclick="closeLevelModal()" title="Close">&times;</button>
+    <div class="level-modal-header">
+      <div class="level-modal-video" id="level-modal-video"></div>
+      <div class="level-modal-info">
+        <div class="level-modal-title" id="level-modal-title">—</div>
+        <div class="level-modal-info-row">
+          <div class="level-modal-info-label">Creator(s):</div>
+          <div class="level-modal-info-value" id="level-modal-creators">—</div>
+        </div>
+        <div class="level-modal-info-row">
+          <div class="level-modal-info-label">Verifier:</div>
+          <div class="level-modal-info-value" id="level-modal-verifier">—</div>
+        </div>
+        <div class="level-modal-info-row">
+          <div class="level-modal-info-label">Submitted by:</div>
+          <div class="level-modal-info-value" id="level-modal-submitted-by">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="level-modal-stats">
+      <div class="level-stat-card" id="level-stat-card-victors" onclick="toggleLevelStatPanel('victors')">
+        <div class="level-stat-value" id="level-stat-victors">—</div>
+        <div class="level-stat-label">Victors</div>
+      </div>
+      <div class="level-stat-card" id="level-stat-card-records" onclick="toggleLevelStatPanel('records')">
+        <div class="level-stat-value" id="level-stat-records">—</div>
+        <div class="level-stat-label">Records</div>
+      </div>
+      <div class="level-stat-card" id="level-stat-card-pending" onclick="toggleLevelStatPanel('pending')">
+        <div class="level-stat-value" id="level-stat-pending">—</div>
+        <div class="level-stat-label">Pending Records</div>
+      </div>
+    </div>
+    <div class="level-stat-panel" id="level-stat-panel">
+      <div class="level-stat-panel-title" id="level-stat-panel-title">—</div>
+      <div class="level-stat-list" id="level-stat-list">
+        <div class="level-stat-empty">No items to display.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1555,9 +2080,6 @@
     if (name === 'submit') updateSubmitGate();
   }
 
-  /* ============================================================
-     TABS
-     ============================================================ */
   function showTab(name) {
     document.querySelectorAll('#page-list .tab').forEach(t => {
       t.classList.toggle('active', t.dataset.tab === name);
@@ -1574,9 +2096,6 @@
     document.getElementById('tab-' + name).classList.add('active');
   }
 
-  /* ============================================================
-     SUBMIT PAGE GATE
-     ============================================================ */
   let currentUserLoggedIn = false;
 
   function updateSubmitGate() {
@@ -1591,9 +2110,6 @@
     }
   }
 
-  /* ============================================================
-     TOAST
-     ============================================================ */
   let toastTimer;
   function toast(msg) {
     const el = document.getElementById('toast');
@@ -1603,17 +2119,11 @@
     toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
   }
 
-  /* ============================================================
-     AUTH SWITCHING
-     ============================================================ */
   function switchAuth(mode) {
     document.getElementById('login-card').style.display  = mode === 'login'  ? 'block' : 'none';
     document.getElementById('signup-card').style.display = mode === 'signup' ? 'block' : 'none';
   }
 
-  /* ============================================================
-     HELPERS
-     ============================================================ */
   function usernameToEmail(username) {
     return username.toLowerCase() + '@wavelist.local';
   }
@@ -1635,7 +2145,6 @@
       .replace(/'/g, '&#39;');
   }
 
-  // Converts any YouTube URL format into an embed URL using youtube-nocookie.com
   function toYouTubeEmbed(url) {
     if (!url) return '';
     try {
@@ -1650,7 +2159,6 @@
       } else if (url.includes('youtube.com/shorts/')) {
         videoId = url.split('youtube.com/shorts/')[1].split(/[?&]/)[0];
       } else {
-        // Assume it's already a raw video ID
         videoId = url.trim();
       }
       if (!videoId) return '';
@@ -1660,9 +2168,11 @@
     }
   }
 
-  /* ============================================================
-     SIGNUP
-     ============================================================ */
+  function formatPoints(pts) {
+    const n = Number(pts || 0);
+    return n % 1 === 0 ? n.toString() : n.toFixed(1);
+  }
+
   async function signup() {
     const username = document.getElementById('su-user').value.trim();
     const password = document.getElementById('su-pass').value;
@@ -1719,9 +2229,6 @@
     await refreshAuthState();
   }
 
-  /* ============================================================
-     LOGIN
-     ============================================================ */
   async function login() {
     const username = document.getElementById('login-user').value.trim();
     const password = document.getElementById('login-pass').value;
@@ -1750,18 +2257,12 @@
     await refreshAuthState();
   }
 
-  /* ============================================================
-     LOGOUT
-     ============================================================ */
   async function logout() {
     await supabaseClient.auth.signOut();
     toast('Logged out.');
     await refreshAuthState();
   }
 
-  /* ============================================================
-     CHANGE USERNAME
-     ============================================================ */
   async function changeUsername() {
     const newName = document.getElementById('new-user').value.trim();
     if (!newName) return toast('Enter a new username.');
@@ -1788,9 +2289,6 @@
     await refreshAuthState();
   }
 
-  /* ============================================================
-     CHANGE GD USERNAME
-     ============================================================ */
   async function changeGD() {
     const newGD = document.getElementById('new-gd').value.trim();
     if (!newGD) return toast('Enter a new GD username.');
@@ -1809,9 +2307,6 @@
     await refreshAuthState();
   }
 
-  /* ============================================================
-     CHANGE DISCORD USERNAME
-     ============================================================ */
   async function changeDiscord() {
     const newDisc = document.getElementById('new-discord').value.trim();
     if (!newDisc) return toast('Enter a new Discord username.');
@@ -1830,9 +2325,6 @@
     await refreshAuthState();
   }
 
-  /* ============================================================
-     REFRESH AUTH STATE
-     ============================================================ */
   async function refreshAuthState() {
     const { data: { user } } = await supabaseClient.auth.getUser();
 
@@ -1875,9 +2367,6 @@
     updateSubmitGate();
   }
 
-  /* ============================================================
-     HOME PAGE AUTH BUTTONS
-     ============================================================ */
   function renderHeroAuthButtons(loggedIn) {
     const container = document.getElementById('hero-auth-buttons');
 
@@ -1894,22 +2383,31 @@
   }
 
   /* ============================================================
-     MAINLIST
+     MAINLIST — Now resolves verifier UUID to username via profiles
      ============================================================ */
   async function renderMainlist() {
     const container = document.getElementById('mainlist-content');
     container.innerHTML = '<div class="loading">Loading mainlist…</div>';
 
-    const { data: levels, error } = await supabaseClient
-      .from('levels')
-      .select('*')
-      .order('position', { ascending: true });
+    const [levelsRes, profilesRes] = await Promise.all([
+      supabaseClient.from('levels').select('*').order('position', { ascending: true }),
+      supabaseClient.from('profiles').select('id, username')
+    ]);
 
-    if (error) {
-      container.innerHTML = `<div class="empty-state"><strong>Couldn't load mainlist</strong>${escapeHtml(error.message)}</div>`;
+    if (levelsRes.error) {
+      container.innerHTML = `<div class="empty-state"><strong>Couldn't load mainlist</strong>${escapeHtml(levelsRes.error.message)}</div>`;
       return;
     }
 
+    const usernameById = {};
+    if (!profilesRes.error && profilesRes.data) {
+      profilesRes.data.forEach(p => { usernameById[p.id] = p.username; });
+    }
+
+    window.__levels = levelsRes.data || [];
+    window.__usernameById = usernameById;
+
+    const levels = levelsRes.data;
     if (!levels || levels.length === 0) {
       container.innerHTML = '';
       return;
@@ -1920,44 +2418,53 @@
       const name = escapeHtml(level.name || '');
       const id   = level.level_id ? escapeHtml(level.level_id) : '';
       const creators = escapeHtml(level.level_creators || '');
-      const verifier = escapeHtml(level.level_verifier || '');
-      const points = Number(level.points || 0);
 
-      // Format points nicely (drop trailing .0)
-      const pointsDisplay = points % 1 === 0 ? points.toString() : points.toFixed(1);
-
-      // Build the title line: "1. Level Name (12345)"
-      let titleHtml = `${rank}. ${name}`;
-      if (id) {
-        titleHtml += ` (<span class="level-id" onclick="copyLevelId('${id}')" title="Click to copy">${id}</span>)`;
+      // Resolve verifier username from UUID
+      let verifierDisplay = '';
+      if (level.level_verifier && usernameById[level.level_verifier]) {
+        verifierDisplay = usernameById[level.level_verifier];
+      } else if (level.level_verifier) {
+        verifierDisplay = 'Unknown verifier';
+      } else {
+        verifierDisplay = 'Verifier is not registered on the Wavelist';
       }
 
-      // Build the sub line: "creator | verifier" (only show separators if both exist)
+      const points = Number(level.points || 0);
+      const pointsDisplay = formatPoints(points);
+
+      let titleHtml = `${rank}. ${name}`;
+      if (id) {
+        titleHtml += ` (<span class="level-id" onclick="event.stopPropagation(); copyLevelId('${id}')" title="Click to copy">${id}</span>)`;
+      }
+
       let subHtml = '';
-      if (creators && verifier) {
-        subHtml = `${creators} | ${verifier}`;
+      if (creators && verifierDisplay) {
+        subHtml = `${creators} | ${escapeHtml(verifierDisplay)}`;
       } else if (creators) {
         subHtml = creators;
-      } else if (verifier) {
-        subHtml = verifier;
+      } else if (verifierDisplay) {
+        subHtml = escapeHtml(verifierDisplay);
       } else {
         subHtml = 'Unknown';
       }
 
-      // Embed URL from video_url
-      const embedUrl = toYouTubeEmbed(level.video_url);
+      let submittedHtml = '';
+      if (level.submitted_by && usernameById[level.submitted_by]) {
+        submittedHtml = `<div class="level-submitted">Submitted by ${escapeHtml(usernameById[level.submitted_by])}</div>`;
+      }
 
-      // Only render iframe if we have a valid embed URL
+      const embedUrl = toYouTubeEmbed(level.video_url);
       const iframeHtml = embedUrl
         ? `<div class="level-iframe-wrap"><iframe src="${escapeHtml(embedUrl)}" loading="lazy" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>`
         : `<div class="level-iframe-wrap"></div>`;
 
       return `
-        <div class="level-row">
+        <div class="level-row" onclick="openLevelModal(${level.id})">
           ${iframeHtml}
           <div class="level-info">
             <div class="level-title">${titleHtml}</div>
             <div class="level-sub">${subHtml}</div>
+            ${submittedHtml}
           </div>
           <div class="level-points">${pointsDisplay}<span> pts</span></div>
         </div>
@@ -1965,7 +2472,6 @@
     }).join('');
   }
 
-  // Copies a level ID to the clipboard
   function copyLevelId(id) {
     if (!id) return;
     navigator.clipboard.writeText(id)
@@ -1975,14 +2481,11 @@
 
   /* ============================================================
      LEADERBOARD
-     Points are calculated live: sum of level points for every
-     accepted record with percent = 100.
      ============================================================ */
   async function renderLeaderboard() {
     const container = document.getElementById('leaderboard-content');
     container.innerHTML = '<div class="loading">Loading leaderboard…</div>';
 
-    // Fetch profiles (without relying on profiles.points — we calculate fresh)
     const { data: profiles, error: profilesError } = await supabaseClient
       .from('profiles')
       .select('id, username, gd_username, discord_username');
@@ -1992,7 +2495,6 @@
       return;
     }
 
-    // Fetch all levels for their point values (map id -> points)
     const { data: levels, error: levelsError } = await supabaseClient
       .from('levels')
       .select('id, points');
@@ -2005,7 +2507,6 @@
     const levelPoints = {};
     (levels || []).forEach(l => { levelPoints[l.id] = Number(l.points || 0); });
 
-    // Fetch accepted records with percent = 100
     const { data: records, error: recordsError } = await supabaseClient
       .from('records')
       .select('user_id, level_id')
@@ -2017,20 +2518,17 @@
       return;
     }
 
-    // Sum points per user
     const totals = {};
     (records || []).forEach(r => {
       const pts = levelPoints[r.level_id] || 0;
       totals[r.user_id] = (totals[r.user_id] || 0) + pts;
     });
 
-    // Attach totals to profiles
     const ranked = (profiles || []).map(p => ({
       ...p,
       totalPoints: totals[p.id] || 0
     }));
 
-    // Sort by points desc, then by username for stability
     ranked.sort((a, b) => {
       if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
       return (a.username || '').localeCompare(b.username || '');
@@ -2041,6 +2539,8 @@
       return;
     }
 
+    window.__rankedPlayers = ranked;
+
     container.innerHTML = ranked.map((p, i) => {
       const rank = i + 1;
       let rankClass = '';
@@ -2048,11 +2548,10 @@
       else if (rank === 2) rankClass = 'top2';
       else if (rank === 3) rankClass = 'top3';
 
-      const pts = p.totalPoints;
-      const pointsDisplay = pts % 1 === 0 ? pts.toString() : pts.toFixed(1);
+      const pointsDisplay = formatPoints(p.totalPoints);
 
       return `
-        <div class="list-row">
+        <div class="list-row" onclick="openProfileModal('${p.id}')">
           <div class="rank ${rankClass}">${rank}</div>
           <div>
             <div class="row-name">${escapeHtml(p.username)}</div>
@@ -2063,6 +2562,313 @@
       `;
     }).join('');
   }
+
+  /* ============================================================
+     PROFILE POPUP
+     ============================================================ */
+  let currentProfileUserId = null;
+  let currentProfileData = {
+    completions: [],
+    records: [],
+    pending: [],
+    levels: []
+  };
+  let currentExpandedPanel = null;
+
+  async function openProfileModal(userId) {
+    const ranked = window.__rankedPlayers || [];
+    const player = ranked.find(p => p.id === userId);
+    if (!player) return;
+
+    currentProfileUserId = userId;
+    currentExpandedPanel = null;
+
+    document.getElementById('profile-stat-panel').classList.remove('show');
+    document.querySelectorAll('.profile-stat-card').forEach(c => c.classList.remove('expanded'));
+
+    document.getElementById('profile-modal-name').textContent = player.username || '—';
+    document.getElementById('profile-modal-sub').textContent  = `${player.gd_username || '—'} | ${player.discord_username || '—'}`;
+    document.getElementById('profile-stat-completions').textContent = '…';
+    document.getElementById('profile-stat-records').textContent     = '…';
+    document.getElementById('profile-stat-pending').textContent     = '…';
+    document.getElementById('profile-stat-levels').textContent      = '…';
+    document.getElementById('profile-rank-box').textContent   = 'Ranked #—';
+    document.getElementById('profile-points-box').textContent = '— pts';
+    document.getElementById('profile-modal').classList.add('show');
+
+    const [completionsRes, recordsRes, pendingRes, levelsRes] = await Promise.all([
+      supabaseClient.from('records')
+        .select('id, level_name, percent, video_url')
+        .eq('user_id', userId)
+        .eq('status', 'accepted')
+        .eq('percent', 100)
+        .order('level_name'),
+      supabaseClient.from('records')
+        .select('id, level_name, percent, video_url')
+        .eq('user_id', userId)
+        .eq('status', 'accepted')
+        .order('level_name'),
+      supabaseClient.from('records')
+        .select('id, level_name, percent, video_url')
+        .eq('user_id', userId)
+        .eq('status', 'pending')
+        .order('level_name'),
+      supabaseClient.from('levels')
+        .select('id, name, position')
+        .eq('submitted_by', userId)
+        .order('position')
+    ]);
+
+    currentProfileData.completions = completionsRes.data || [];
+    currentProfileData.records     = recordsRes.data || [];
+    currentProfileData.pending     = pendingRes.data || [];
+    currentProfileData.levels      = levelsRes.data || [];
+
+    const rankIndex = ranked.findIndex(p => p.id === userId);
+    const rankNum   = rankIndex >= 0 ? rankIndex + 1 : '—';
+    const pointsDisplay = formatPoints(player.totalPoints);
+
+    document.getElementById('profile-stat-completions').textContent = currentProfileData.completions.length;
+    document.getElementById('profile-stat-records').textContent     = currentProfileData.records.length;
+    document.getElementById('profile-stat-pending').textContent     = currentProfileData.pending.length;
+    document.getElementById('profile-stat-levels').textContent      = currentProfileData.levels.length;
+    document.getElementById('profile-rank-box').textContent   = `Ranked #${rankNum}`;
+    document.getElementById('profile-points-box').textContent = `${pointsDisplay} pts`;
+  }
+
+  function toggleStatPanel(type) {
+    const panel = document.getElementById('profile-stat-panel');
+    const panelTitle = document.getElementById('profile-stat-panel-title');
+    const panelList  = document.getElementById('profile-stat-list');
+
+    if (currentExpandedPanel === type) {
+      panel.classList.remove('show');
+      document.querySelectorAll('.profile-stat-card').forEach(c => c.classList.remove('expanded'));
+      currentExpandedPanel = null;
+      return;
+    }
+
+    currentExpandedPanel = type;
+    panel.classList.add('show');
+
+    document.querySelectorAll('.profile-stat-card').forEach(c => c.classList.remove('expanded'));
+    document.getElementById('stat-card-' + type).classList.add('expanded');
+
+    if (type === 'completions') {
+      panelTitle.textContent = 'Completed Levels';
+      renderRecordList(panelList, currentProfileData.completions, true);
+    } else if (type === 'records') {
+      panelTitle.textContent = 'Accepted Records';
+      renderRecordList(panelList, currentProfileData.records, true);
+    } else if (type === 'pending') {
+      panelTitle.textContent = 'Pending Records';
+      renderRecordList(panelList, currentProfileData.pending, true);
+    } else if (type === 'levels') {
+      panelTitle.textContent = 'Submitted Levels';
+      renderSubmittedLevelList(panelList, currentProfileData.levels);
+    }
+  }
+
+  function renderRecordList(container, items, clickable) {
+    if (!items || items.length === 0) {
+      container.innerHTML = '<div class="profile-stat-empty">No items to display.</div>';
+      return;
+    }
+    container.innerHTML = items.map(r => {
+      const name = escapeHtml(r.level_name || 'Unknown level');
+      const percent = Number(r.percent || 0);
+      const url = r.video_url ? escapeHtml(r.video_url) : '';
+      const cls = (clickable && url) ? 'profile-stat-item clickable' : 'profile-stat-item';
+      const clickAttr = (clickable && url) ? ` onclick="window.open('${url}', '_blank', 'noopener')"` : '';
+      return `<div class="${cls}"${clickAttr}>${name}<span class="profile-stat-item-percent">${percent}%</span></div>`;
+    }).join('');
+  }
+
+  function renderSubmittedLevelList(container, items) {
+    if (!items || items.length === 0) {
+      container.innerHTML = '<div class="profile-stat-empty">No items to display.</div>';
+      return;
+    }
+    container.innerHTML = items.map(l => {
+      const pos = l.position != null ? `#${l.position} - ` : '';
+      const name = escapeHtml(l.name || 'Unknown level');
+      return `<div class="profile-stat-item">${pos}${name}</div>`;
+    }).join('');
+  }
+
+  function closeProfileModal() {
+    document.getElementById('profile-modal').classList.remove('show');
+    currentExpandedPanel = null;
+  }
+
+  document.getElementById('profile-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'profile-modal') closeProfileModal();
+  });
+
+  /* ============================================================
+     LEVEL DETAILS POPUP
+     ============================================================ */
+  let currentLevelId = null;
+  let currentLevelData = {
+    victors: [],
+    records: [],
+    pending: []
+  };
+  let currentExpandedLevelPanel = null;
+
+  async function openLevelModal(levelId) {
+    const levels = window.__levels || [];
+    const level = levels.find(l => l.id === levelId);
+    if (!level) return;
+
+    const usernameById = window.__usernameById || {};
+
+    currentLevelId = levelId;
+    currentExpandedLevelPanel = null;
+
+    document.getElementById('level-stat-panel').classList.remove('show');
+    document.querySelectorAll('.level-stat-card').forEach(c => c.classList.remove('expanded'));
+
+    const videoContainer = document.getElementById('level-modal-video');
+    const embedUrl = toYouTubeEmbed(level.video_url);
+    if (embedUrl) {
+      videoContainer.innerHTML = `<iframe src="${escapeHtml(embedUrl)}" loading="lazy" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+    } else {
+      videoContainer.innerHTML = '';
+    }
+
+    const rank = level.position;
+    const name = escapeHtml(level.name || '');
+    const id   = level.level_id ? escapeHtml(level.level_id) : '';
+    let titleHtml = `${rank}. ${name}`;
+    if (id) {
+      titleHtml += ` (<span class="level-modal-id" onclick="copyLevelId('${id}')" title="Click to copy">${id}</span>)`;
+    }
+    document.getElementById('level-modal-title').innerHTML = titleHtml;
+
+    document.getElementById('level-modal-creators').textContent =
+      level.level_creators || 'Unknown';
+
+    // Resolve verifier UUID to username
+    let verifierText = '';
+    if (level.level_verifier && usernameById[level.level_verifier]) {
+      verifierText = usernameById[level.level_verifier];
+    } else if (level.level_verifier) {
+      verifierText = 'Unknown verifier';
+    } else {
+      verifierText = 'Verifier is not registered on the Wavelist';
+    }
+    document.getElementById('level-modal-verifier').textContent = verifierText;
+
+    const submittedName = (level.submitted_by && usernameById[level.submitted_by])
+      ? usernameById[level.submitted_by]
+      : null;
+    document.getElementById('level-modal-submitted-by').textContent =
+      submittedName || 'Not recorded';
+
+    document.getElementById('level-stat-victors').textContent  = '…';
+    document.getElementById('level-stat-records').textContent  = '…';
+    document.getElementById('level-stat-pending').textContent  = '…';
+    document.getElementById('level-modal').classList.add('show');
+
+    const [victorsRes, acceptedRes, pendingRes] = await Promise.all([
+      supabaseClient.from('records')
+        .select('id, user_id, percent, video_url')
+        .eq('level_id', levelId)
+        .eq('status', 'accepted')
+        .eq('percent', 100),
+      supabaseClient.from('records')
+        .select('id, user_id, percent, video_url')
+        .eq('level_id', levelId)
+        .eq('status', 'accepted'),
+      supabaseClient.from('records')
+        .select('id, user_id, percent, video_url')
+        .eq('level_id', levelId)
+        .eq('status', 'pending')
+    ]);
+
+    currentLevelData.victors = victorsRes.data || [];
+    currentLevelData.records = acceptedRes.data || [];
+    currentLevelData.pending = pendingRes.data || [];
+
+    document.getElementById('level-stat-victors').textContent = currentLevelData.victors.length;
+    document.getElementById('level-stat-records').textContent = currentLevelData.records.length;
+    document.getElementById('level-stat-pending').textContent = currentLevelData.pending.length;
+  }
+
+  function toggleLevelStatPanel(type) {
+    const panel = document.getElementById('level-stat-panel');
+    const panelTitle = document.getElementById('level-stat-panel-title');
+    const panelList  = document.getElementById('level-stat-list');
+
+    if (currentExpandedLevelPanel === type) {
+      panel.classList.remove('show');
+      document.querySelectorAll('.level-stat-card').forEach(c => c.classList.remove('expanded'));
+      currentExpandedLevelPanel = null;
+      return;
+    }
+
+    currentExpandedLevelPanel = type;
+    panel.classList.add('show');
+
+    document.querySelectorAll('.level-stat-card').forEach(c => c.classList.remove('expanded'));
+    document.getElementById('level-stat-card-' + type).classList.add('expanded');
+
+    if (type === 'victors') {
+      panelTitle.textContent = 'Victors';
+      renderLevelRecordList(panelList, currentLevelData.victors, false);
+    } else if (type === 'records') {
+      panelTitle.textContent = 'Accepted Records';
+      renderLevelRecordList(panelList, currentLevelData.records, true);
+    } else if (type === 'pending') {
+      panelTitle.textContent = 'Pending Records';
+      renderLevelRecordList(panelList, currentLevelData.pending, false);
+    }
+  }
+
+  function renderLevelRecordList(container, items, clickable) {
+    const usernameById = window.__usernameById || {};
+    if (!items || items.length === 0) {
+      container.innerHTML = '<div class="level-stat-empty">No items to display.</div>';
+      return;
+    }
+
+    const sorted = [...items].sort((a, b) => {
+      return Number(b.percent || 0) - Number(a.percent || 0);
+    });
+
+    container.innerHTML = sorted.map(r => {
+      const playerName = usernameById[r.user_id] || 'Unknown player';
+      const percent = Number(r.percent || 0);
+      const url = r.video_url ? escapeHtml(r.video_url) : '';
+      const clickAttr = (clickable && url) ? ` onclick="window.open('${url}', '_blank', 'noopener')"` : '';
+      return `
+        <div class="level-stat-item"${clickAttr}>
+          <div class="level-stat-item-name">${escapeHtml(playerName)}</div>
+          <div class="level-stat-item-sub">${clickable ? 'Click to watch' : 'Pending review'}</div>
+          <div class="level-stat-item-percent">${percent}%</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function closeLevelModal() {
+    document.getElementById('level-modal').classList.remove('show');
+    currentExpandedLevelPanel = null;
+  }
+
+  document.getElementById('level-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'level-modal') closeLevelModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeProfileModal();
+      closeLevelModal();
+      closeClearModal();
+      closeClearLevelModal();
+    }
+  });
 
   /* ============================================================
      RECORD SUBMIT FORM
@@ -2080,17 +2886,14 @@
   }
 
   async function submitRecord() {
-    // Gather form values
     const levelId  = document.getElementById('record-level').value;
     const percent  = Number(document.getElementById('record-percent').value.trim());
     const videoUrl = document.getElementById('record-video').value.trim();
 
-    // Sanity checks (button should already be disabled, but be safe)
     if (!levelId || !videoUrl || isNaN(percent) || percent < 0 || percent > 100) {
       return toast('Please fill in all fields with valid values.');
     }
 
-    // Confirm the user is logged in
     const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) {
       return toast('You must be signed in to submit a record.');
@@ -2098,7 +2901,6 @@
 
     setLoading('record-submit-btn', true, 'Submitting…', 'Submit Record');
 
-    // Look up the level name so we can store it as a snapshot
     const { data: levelData, error: levelError } = await supabaseClient
       .from('levels')
       .select('name')
@@ -2110,7 +2912,6 @@
       return toast('Could not find the selected level.');
     }
 
-    // Insert the record — status defaults to 'pending' and submitted_at is auto
     const { error: insertError } = await supabaseClient
       .from('records')
       .insert({
@@ -2127,7 +2928,6 @@
       return toast('Submission failed: ' + insertError.message);
     }
 
-    // Success — clear the form and notify the user
     document.getElementById('record-level').value = '';
     document.getElementById('record-percent').value = '';
     document.getElementById('record-video').value = '';
@@ -2161,21 +2961,81 @@
      LEVEL SUBMIT FORM
      ============================================================ */
   function updateLevelSubmit() {
-    const fields = [
-      'level-name',
-      'level-id',
-      'level-creators',
-      'level-contact',
-      'level-verifier',
-      'level-publisher',
-      'level-video'
-    ];
-    const allFilled = fields.every(id => document.getElementById(id).value.trim() !== '');
+    const name       = document.getElementById('level-name').value.trim();
+    const levelId    = document.getElementById('level-id').value.trim();
+    const creators   = document.getElementById('level-creators').value.trim();
+    const contact    = document.getElementById('level-contact').value.trim();
+    const verifier   = document.getElementById('level-verifier').value;
+    const publisher  = document.getElementById('level-publisher').value.trim();
+    const video      = document.getElementById('level-video').value.trim();
+
+    const allFilled = name && levelId && creators && contact && verifier && publisher && video;
     document.getElementById('level-submit-btn').disabled = !allFilled;
   }
 
-  function submitLevel() {
-    // Intentionally empty — will be wired up later
+  async function submitLevel() {
+    const name       = document.getElementById('level-name').value.trim();
+    const levelId    = document.getElementById('level-id').value.trim();
+    const creators   = document.getElementById('level-creators').value.trim();
+    const contact    = document.getElementById('level-contact').value.trim();
+    const verifierVal = document.getElementById('level-verifier').value;
+    const publisher  = document.getElementById('level-publisher').value.trim();
+    const videoUrl   = document.getElementById('level-video').value.trim();
+
+    if (!name || !levelId || !creators || !contact || !verifierVal || !publisher || !videoUrl) {
+      return toast('Please fill in all fields.');
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+      return toast('You must be signed in to submit a level.');
+    }
+
+    setLoading('level-submit-btn', true, 'Submitting…', 'Submit Level');
+
+    // verifierVal is either "NOT_ON_WAVELIST" or a UUID
+    let verifierUUID = null;
+    let verifierUsername = null;
+
+    if (verifierVal !== 'NOT_ON_WAVELIST') {
+      verifierUUID = verifierVal;
+      // Look up the username snapshot
+      const { data: verifierProfile } = await supabaseClient
+        .from('profiles')
+        .select('username')
+        .eq('id', verifierUUID)
+        .maybeSingle();
+      if (verifierProfile) {
+        verifierUsername = verifierProfile.username;
+      }
+    }
+
+    const { error: insertError } = await supabaseClient
+      .from('level_submissions')
+      .insert({
+        user_id: user.id,
+        name: name,
+        level_id: levelId,
+        creators: creators,
+        contact_info: contact,
+        verifier: verifierUUID,
+        verifier_username: verifierUsername,
+        publisher: publisher,
+        video_url: videoUrl
+      });
+
+    setLoading('level-submit-btn', false, '', 'Submit Level');
+
+    if (insertError) {
+      return toast('Submission failed: ' + insertError.message);
+    }
+
+    const fields = ['level-name', 'level-id', 'level-creators', 'level-contact', 'level-publisher', 'level-video'];
+    fields.forEach(id => document.getElementById(id).value = '');
+    document.getElementById('level-verifier').value = '';
+    updateLevelSubmit();
+
+    toast('Level submitted! An editor will review it soon.');
   }
 
   function openClearLevelModal() {
@@ -2192,11 +3052,11 @@
       'level-id',
       'level-creators',
       'level-contact',
-      'level-verifier',
       'level-publisher',
       'level-video'
     ];
     fields.forEach(id => document.getElementById(id).value = '');
+    document.getElementById('level-verifier').value = '';
     updateLevelSubmit();
     closeClearLevelModal();
     toast('Form cleared.');
@@ -2207,7 +3067,7 @@
   });
 
   /* ============================================================
-     LOAD LEVELS INTO RECORD DROPDOWN
+     LOAD DATA INTO DROPDOWNS
      ============================================================ */
   async function loadRecordLevels() {
     const select = document.getElementById('record-level');
@@ -2226,12 +3086,34 @@
       levels.map(l => `<option value="${l.id}">#${l.position} - ${escapeHtml(l.name)}</option>`).join('');
   }
 
+  async function loadVerifierOptions() {
+    const select = document.getElementById('level-verifier');
+
+    const { data: profiles, error } = await supabaseClient
+      .from('profiles')
+      .select('id, username')
+      .order('username', { ascending: true });
+
+    if (error) {
+      select.innerHTML = '<option value="">Error loading users</option>';
+      return;
+    }
+
+    const options = ['<option value="">Select a verifier…</option>'];
+    options.push('<option value="NOT_ON_WAVELIST">Not on Wavelist</option>');
+    (profiles || []).forEach(p => {
+      options.push(`<option value="${p.id}">${escapeHtml(p.username)}</option>`);
+    });
+
+    select.innerHTML = options.join('');
+  }
+
   /* ============================================================
      INITIALIZE
      ============================================================ */
   (async function init() {
     await refreshAuthState();
-    await Promise.all([renderMainlist(), loadRecordLevels()]);
+    await Promise.all([renderMainlist(), loadRecordLevels(), loadVerifierOptions()]);
     supabaseClient.auth.onAuthStateChange(() => {
       refreshAuthState();
     });
