@@ -1523,7 +1523,7 @@
 
   <div class="tabs">
     <button class="tab active" data-tab="mainlist" onclick="showTab('mainlist')">Mainlist</button>
-    <button class="tab" data-tab="upcoming" onclick="showTab('upcoming')">Upcoming List</button>
+    <button class="tab" data-tab="upcoming" onclick="showTab('upcoming')">Upcoming Forum</button>
     <button class="tab" data-tab="changelog" onclick="showTab('changelog')">Changelog</button>
   </div>
 
@@ -1534,98 +1534,9 @@
   </div>
 
   <div class="tab-panel" id="tab-upcoming">
-    <div class="upcoming-list">
-
-      <div class="upcoming-card">
-        <div class="upcoming-status green">Maintained</div>
-        <div class="upcoming-header">
-          <span class="upcoming-rank">#1</span>
-          <span class="upcoming-name">Vehemence Wave</span>
-        </div>
-        <div class="upcoming-points">50 projected list points</div>
-        <div class="upcoming-info">
-          <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12</div>
-          <div class="upcoming-info-label">Verifier:</div>
-          <div class="upcoming-info-value">No planned verifier</div>
-        </div>
-      </div>
-
-      <div class="upcoming-card">
-        <div class="upcoming-status green">Maintained</div>
-        <div class="upcoming-header">
-          <span class="upcoming-rank">#2</span>
-          <span class="upcoming-name">Flamewave</span>
-        </div>
-        <div class="upcoming-points">40 projected list points</div>
-        <div class="upcoming-info">
-          <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12</div>
-          <div class="upcoming-info-label">Verifier:</div>
-          <div class="upcoming-info-value">No planned verifier</div>
-        </div>
-      </div>
-
-      <div class="upcoming-card">
-        <div class="upcoming-status red">Abandoned</div>
-        <div class="upcoming-header">
-          <span class="upcoming-rank">#3</span>
-          <span class="upcoming-name">Waveopolis</span>
-        </div>
-        <div class="upcoming-points">29 projected list points</div>
-        <div class="upcoming-info">
-          <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12</div>
-          <div class="upcoming-info-label">Verifier:</div>
-          <div class="upcoming-info-value">No planned verifier</div>
-        </div>
-      </div>
-
-      <div class="upcoming-card">
-        <div class="upcoming-status green">Maintained</div>
-        <div class="upcoming-header">
-          <span class="upcoming-rank">#4</span>
-          <span class="upcoming-name">Grief Wave</span>
-        </div>
-        <div class="upcoming-points">11 projected list points</div>
-        <div class="upcoming-info">
-          <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12</div>
-          <div class="upcoming-info-label">Verifier:</div>
-          <div class="upcoming-info-value">Marcus</div>
-        </div>
-      </div>
-
-      <div class="upcoming-card">
-        <div class="upcoming-status green">Maintained</div>
-        <div class="upcoming-header">
-          <span class="upcoming-rank">#5</span>
-          <span class="upcoming-name">Cucumber Spam</span>
-        </div>
-        <div class="upcoming-points">9 projected list points</div>
-        <div class="upcoming-info">
-          <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12</div>
-          <div class="upcoming-info-label">Verifier:</div>
-          <div class="upcoming-info-value">Marcus</div>
-        </div>
-      </div>
-
-      <div class="upcoming-card">
-        <div class="upcoming-status green">Maintained</div>
-        <div class="upcoming-header">
-          <span class="upcoming-rank">#6</span>
-          <span class="upcoming-name">VSwave</span>
-        </div>
-        <div class="upcoming-points">3 projected list points</div>
-        <div class="upcoming-info">
-          <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12</div>
-          <div class="upcoming-info-label">Verifier:</div>
-          <div class="upcoming-info-value">Marcus</div>
-        </div>
-      </div>
-
+    <div class="empty-state">
+      <strong>Upcoming Forum is coming soon</strong>
+      This will be a space where creators can add their upcoming levels and share progress updates with the community. Check back later!
     </div>
   </div>
 
@@ -2514,7 +2425,6 @@
         document.getElementById('p-discord').textContent = profile.discord_username;
         document.getElementById('new-user').value = '';
         document.getElementById('new-gd').value = '';
-        // Note: new-discord stays empty so the user only sees the @ prefix
         document.getElementById('new-discord').value = '';
 
         await renderAccountStats();
