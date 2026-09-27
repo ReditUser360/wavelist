@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Wavelist</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a12'/%3E%3Ctext x='50' y='50' dominant-baseline='central' text-anchor='middle' font-family='Rubik, system-ui, sans-serif' font-weight='800' font-size='72' fill='%237c5cff'%3EW%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -167,25 +168,6 @@
     flex-wrap: wrap;
   }
 
-  .dev-warning {
-    background: rgba(255, 92, 122, 0.12);
-    border: 1px solid rgba(255, 92, 122, 0.5);
-    border-radius: 16px;
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 2.5rem;
-    color: var(--text);
-    line-height: 1.7;
-    font-size: 1rem;
-    text-align: left;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 8px 32px rgba(255, 92, 122, 0.15);
-  }
-  .dev-warning strong {
-    color: var(--danger);
-    font-weight: 700;
-  }
-
   .feature-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -206,18 +188,6 @@
     transform: translateY(-4px);
     border-color: rgba(124, 92, 255, 0.4);
     box-shadow: 0 12px 32px rgba(124, 92, 255, 0.18);
-  }
-  .feature-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    box-shadow: 0 6px 20px rgba(124, 92, 255, 0.35);
   }
   .feature-card h3 {
     font-size: 1.1rem;
@@ -244,6 +214,7 @@
     -webkit-backdrop-filter: blur(12px);
     cursor: pointer;
     transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
   }
   .btn:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -282,6 +253,16 @@
   .btn.danger:hover {
     background: rgba(255, 92, 122, 0.12);
     box-shadow: 0 8px 24px rgba(255, 92, 122, 0.2);
+  }
+  .btn.donate {
+    background: rgba(74, 222, 128, 0.15);
+    border-color: rgba(74, 222, 128, 0.5);
+    color: #86efac;
+  }
+  .btn.donate:hover {
+    background: rgba(74, 222, 128, 0.25);
+    border-color: rgba(74, 222, 128, 0.7);
+    box-shadow: 0 8px 24px rgba(74, 222, 128, 0.25);
   }
 
   .card {
@@ -393,11 +374,12 @@
   }
 
   .level-row {
+    position: relative;
     display: grid;
     grid-template-columns: 240px 1fr auto;
     align-items: center;
     gap: 1.5rem;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 1.5rem 2rem 1.5rem;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 14px;
@@ -459,10 +441,21 @@
     word-break: break-word;
   }
   .level-submitted {
-    font-size: 0.75rem;
+    position: absolute;
+    bottom: 0.75rem;
+    right: 1.5rem;
+    font-size: 0.85rem;
     color: var(--text-dim);
-    opacity: 0.75;
-    margin-top: 0.5rem;
+    opacity: 0.85;
+  }
+  .level-verifier-name {
+    color: var(--accent-2);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .level-verifier-name:hover {
+    color: var(--accent-1);
+    text-decoration: underline;
   }
   .level-points {
     font-weight: 800;
@@ -614,25 +607,27 @@
     position: absolute;
     top: 1.25rem;
     right: 1.25rem;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    box-shadow: 0 0 12px currentColor;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: white;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   }
   .upcoming-status.green {
     background: var(--status-green);
-    color: var(--status-green);
   }
   .upcoming-status.red {
     background: var(--status-red);
-    color: var(--status-red);
   }
   .upcoming-header {
     display: flex;
     align-items: baseline;
     gap: 1rem;
     margin-bottom: 1.25rem;
-    padding-right: 2rem;
+    padding-right: 8rem;
     flex-wrap: wrap;
   }
   .upcoming-rank {
@@ -705,10 +700,49 @@
     border-color: var(--accent-1);
     box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
   }
+
+  .input-prefix-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .input-prefix-wrap:focus-within {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+  }
+  .input-prefix {
+    padding-left: 1rem;
+    padding-right: 0;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 1rem;
+    user-select: none;
+    pointer-events: none;
+  }
+  .input-prefix-wrap input {
+    background: transparent;
+    border: none;
+    padding-left: 0.15rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    padding-right: 1rem;
+    border-radius: 10px;
+    box-shadow: none !important;
+  }
+  .input-prefix-wrap input:focus {
+    box-shadow: none !important;
+  }
+
   .form-group select {
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
+    background-color: rgba(0, 0, 0, 0.25);
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0a0b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
@@ -777,6 +811,18 @@
   }
   .info-row span:last-child {
     font-weight: 600;
+  }
+
+  .account-stats-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .account-stats-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
   }
 
   .discord-callout {
@@ -1293,6 +1339,31 @@
     padding: 0.5rem 0.25rem 0.85rem;
   }
 
+  .donate-info-box {
+    background: rgba(79, 140, 255, 0.12);
+    border: 1px solid rgba(79, 140, 255, 0.45);
+    border-radius: 14px;
+    padding: 1.5rem 1.5rem;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .btn.cashapp {
+    display: block;
+    width: 100%;
+    background: #00d632;
+    border: none;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+  }
+  .btn.cashapp:hover {
+    background: #00b82c;
+    box-shadow: 0 10px 32px rgba(0, 214, 50, 0.4);
+  }
+
   .toast {
     position: fixed;
     bottom: 2rem;
@@ -1360,6 +1431,11 @@
       text-align: left;
       font-size: 1.1rem;
     }
+    .level-submitted {
+      position: static;
+      margin-top: 0.5rem;
+      text-align: left;
+    }
 
     .hero-buttons { flex-direction: column; }
     .hero-buttons .btn { width: 100%; }
@@ -1378,11 +1454,11 @@
     .modal-actions .btn { width: 100%; }
     .changelog-entry { padding: 1.4rem 1.25rem; }
     .changelog-field { grid-template-columns: 1fr; gap: 0.25rem; }
-    .dev-warning { padding: 1.15rem 1.25rem; font-size: 0.95rem; }
     .upcoming-card { padding: 1.4rem 1.25rem; }
     .upcoming-info { grid-template-columns: 1fr; gap: 0.25rem; }
     .upcoming-name { font-size: 1.15rem; }
     .upcoming-rank { font-size: 1.25rem; }
+    .upcoming-header { padding-right: 0; }
     .profile-modal { padding: 2rem 1.5rem 1.5rem; }
     .profile-modal-close { top: 1rem; right: 1rem; }
     .profile-stat-value { font-size: 1.5rem; }
@@ -1413,10 +1489,6 @@
     <h1>Official Wavelist</h1>
     <p>This website is currently managed by SaturnGD47</p>
 
-    <div class="dev-warning">
-      <strong>Warning:</strong> this website is still under development and is not finished. Trying to do anything server-side will likely result in data loss or account deletion. Please use site for viewing purposes only unless you have been specifically asked by the developer to use it.
-    </div>
-
     <div class="hero-buttons">
       <button class="btn primary" onclick="showPage('list')">View wavelist</button>
       <button class="btn" onclick="showPage('leaderboard')">View leaderboard</button>
@@ -1428,17 +1500,14 @@
 
   <div class="feature-grid">
     <div class="feature-card">
-      <div class="feature-icon">📤</div>
       <h3>Submit Your Levels</h3>
       <p>Got a wave level you think deserves a spot? Send it in and it'll be reviewed for the mainlist.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📊</div>
       <h3>View Player Stats</h3>
       <p>Check the leaderboard to see where every player stands based on the levels they've completed.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">✅</div>
       <h3>Track Verifications</h3>
       <p>Keep an eye on upcoming level verifications and see what's being worked on.</p>
     </div>
@@ -1468,7 +1537,7 @@
     <div class="upcoming-list">
 
       <div class="upcoming-card">
-        <div class="upcoming-status green"></div>
+        <div class="upcoming-status green">Maintained</div>
         <div class="upcoming-header">
           <span class="upcoming-rank">#1</span>
           <span class="upcoming-name">Vehemence Wave</span>
@@ -1476,14 +1545,14 @@
         <div class="upcoming-points">50 projected list points</div>
         <div class="upcoming-info">
           <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-value">GodOfMars12</div>
           <div class="upcoming-info-label">Verifier:</div>
           <div class="upcoming-info-value">No planned verifier</div>
         </div>
       </div>
 
       <div class="upcoming-card">
-        <div class="upcoming-status green"></div>
+        <div class="upcoming-status green">Maintained</div>
         <div class="upcoming-header">
           <span class="upcoming-rank">#2</span>
           <span class="upcoming-name">Flamewave</span>
@@ -1491,14 +1560,14 @@
         <div class="upcoming-points">40 projected list points</div>
         <div class="upcoming-info">
           <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-value">GodOfMars12</div>
           <div class="upcoming-info-label">Verifier:</div>
           <div class="upcoming-info-value">No planned verifier</div>
         </div>
       </div>
 
       <div class="upcoming-card">
-        <div class="upcoming-status red"></div>
+        <div class="upcoming-status red">Abandoned</div>
         <div class="upcoming-header">
           <span class="upcoming-rank">#3</span>
           <span class="upcoming-name">Waveopolis</span>
@@ -1506,14 +1575,14 @@
         <div class="upcoming-points">29 projected list points</div>
         <div class="upcoming-info">
           <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-value">GodOfMars12</div>
           <div class="upcoming-info-label">Verifier:</div>
           <div class="upcoming-info-value">No planned verifier</div>
         </div>
       </div>
 
       <div class="upcoming-card">
-        <div class="upcoming-status green"></div>
+        <div class="upcoming-status green">Maintained</div>
         <div class="upcoming-header">
           <span class="upcoming-rank">#4</span>
           <span class="upcoming-name">Grief Wave</span>
@@ -1521,14 +1590,14 @@
         <div class="upcoming-points">11 projected list points</div>
         <div class="upcoming-info">
           <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-value">GodOfMars12</div>
           <div class="upcoming-info-label">Verifier:</div>
           <div class="upcoming-info-value">Marcus</div>
         </div>
       </div>
 
       <div class="upcoming-card">
-        <div class="upcoming-status green"></div>
+        <div class="upcoming-status green">Maintained</div>
         <div class="upcoming-header">
           <span class="upcoming-rank">#5</span>
           <span class="upcoming-name">Cucumber Spam</span>
@@ -1536,14 +1605,14 @@
         <div class="upcoming-points">9 projected list points</div>
         <div class="upcoming-info">
           <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-value">GodOfMars12</div>
           <div class="upcoming-info-label">Verifier:</div>
           <div class="upcoming-info-value">Marcus</div>
         </div>
       </div>
 
       <div class="upcoming-card">
-        <div class="upcoming-status green"></div>
+        <div class="upcoming-status green">Maintained</div>
         <div class="upcoming-header">
           <span class="upcoming-rank">#6</span>
           <span class="upcoming-name">VSwave</span>
@@ -1551,7 +1620,7 @@
         <div class="upcoming-points">3 projected list points</div>
         <div class="upcoming-info">
           <div class="upcoming-info-label">Creator(s):</div>
-          <div class="upcoming-info-value">GodOfMars12 (Marcus)</div>
+          <div class="upcoming-info-value">GodOfMars12</div>
           <div class="upcoming-info-label">Verifier:</div>
           <div class="upcoming-info-value">Marcus</div>
         </div>
@@ -1562,14 +1631,18 @@
 
   <div class="tab-panel" id="tab-changelog">
     <div class="changelog-entry">
+      <div class="changelog-date">9 - 27 - 2026</div>
+      <div class="changelog-field">
+        <div class="changelog-label">Change:</div>
+        <div class="changelog-value">New website released! New UI, built from scratch and without the limitations of Google Sites. Submit records and levels directly through the website, view automatic leaderboard updates without being done manually, and create accounts that presist across devices.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
       <div class="changelog-date">9 - 5 - 2026</div>
       <div class="changelog-field">
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">A level called "VSwave" created by GodOfMars12 was discovered and placed on the upcoming list, with a projected 3 leaderboard points, easier than Grief Wave. This level is set to be verified by GodOfMars12.</div>
-      </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
       </div>
     </div>
 
@@ -1579,10 +1652,6 @@
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">A level called "Vehemence Wave" currently being created by GodOfMars12 was discovered and placed on the upcoming list, with a projected 50 leaderboard points, harder than Flamewave. This level is set to be verified by GodOfMars12.</div>
       </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
-      </div>
     </div>
 
     <div class="changelog-entry">
@@ -1590,10 +1659,6 @@
       <div class="changelog-field">
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">"Flamewave" determined to be actively worked on, level has been marked as green on the upcoming list.</div>
-      </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
       </div>
     </div>
 
@@ -1615,10 +1680,6 @@
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">A level called "Cucumber Spam" created by GodOfMars12 was discovered and placed on the upcoming list, with a projected 11 leaderboard points, harder than Grief Wave and easier than Waveopolis. This level is set to be verified by GodOfMars12.</div>
       </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
-      </div>
     </div>
 
     <div class="changelog-entry">
@@ -1639,10 +1700,6 @@
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">Added a submission form directly accessible from the website so you do not have to submit levels and records using the Discord server.</div>
       </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
-      </div>
     </div>
 
     <div class="changelog-entry">
@@ -1651,10 +1708,6 @@
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">Fixed the changelog page on the website saying "leaderboard" instead of "changelog."</div>
       </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
-      </div>
     </div>
 
     <div class="changelog-entry">
@@ -1662,10 +1715,6 @@
       <div class="changelog-field">
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">Changelog has been added to the Wavelist website! This means that every change prior to this entry has been documented after the matter, however dates of records have all been confirmed using history from private dm's, chats in the discord server, etc.</div>
-      </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
       </div>
     </div>
 
@@ -1686,10 +1735,6 @@
       <div class="changelog-field">
         <div class="changelog-label">Change:</div>
         <div class="changelog-value">Wavelist created! Levels "Grief Wave Nerfed" "Nerfed Wave Trials" "Wavemoc Nerfleashed" and "EXPIRATION nerf" have been added! Players GodOfMars12 and SaturnGD47 have been added to the leaderboard and records page! Levels "Flamewave" "Waveopolis" and "Grief Wave" have been added to the upcoming list!</div>
-      </div>
-      <div class="changelog-field">
-        <div class="changelog-label">Reason:</div>
-        <div class="changelog-value">—</div>
       </div>
     </div>
   </div>
@@ -1741,6 +1786,8 @@
           <li>Must show the end screen after level completion</li>
           <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack</li>
           <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
+          <li>Must be recorded on at least 240p and 15fps</li>
+          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule.</li>
         </ol>
       </div>
 
@@ -1758,7 +1805,7 @@
         </div>
         <div class="form-group">
           <label>Percent</label>
-          <input type="number" id="record-percent" min="0" max="100" placeholder="Enter percent (0-100)" oninput="updateRecordSubmit()" />
+          <input type="number" id="record-percent" min="1" max="100" placeholder="Enter percent (1-100)" oninput="updateRecordSubmit()" />
         </div>
         <div class="form-group">
           <label>Record video (YouTube link)</label>
@@ -1794,6 +1841,8 @@
           <li>Must show the end screen after level completion</li>
           <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack</li>
           <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
+          <li>Must be recorded on at least 240p and 15fps</li>
+          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule.</li>
         </ol>
       </div>
 
@@ -1885,7 +1934,10 @@
       </div>
       <div class="form-group">
         <label>Discord Username</label>
-        <input type="text" id="su-discord" placeholder="Your Discord username" />
+        <div class="input-prefix-wrap">
+          <span class="input-prefix">@</span>
+          <input type="text" id="su-discord" placeholder="Your Discord username" />
+        </div>
       </div>
       <button class="btn primary" style="width:100%" onclick="signup()" id="signup-btn">Create Account</button>
       <div class="auth-switch">
@@ -1900,6 +1952,38 @@
         <div class="info-row"><span>Username</span><span id="p-user">—</span></div>
         <div class="info-row"><span>Geometry Dash</span><span id="p-gd">—</span></div>
         <div class="info-row"><span>Discord</span><span id="p-discord">—</span></div>
+      </div>
+
+      <div class="account-stats-section">
+        <div class="account-stats-section-title">Your Stats</div>
+        <div class="profile-modal-stats">
+          <div class="profile-stat-card" id="account-stat-card-completions" onclick="toggleAccountStatPanel('completions')">
+            <div class="profile-stat-value" id="account-stat-completions">—</div>
+            <div class="profile-stat-label">Completions</div>
+          </div>
+          <div class="profile-stat-card" id="account-stat-card-records" onclick="toggleAccountStatPanel('records')">
+            <div class="profile-stat-value" id="account-stat-records">—</div>
+            <div class="profile-stat-label">Records</div>
+          </div>
+          <div class="profile-stat-card" id="account-stat-card-pending" onclick="toggleAccountStatPanel('pending')">
+            <div class="profile-stat-value" id="account-stat-pending">—</div>
+            <div class="profile-stat-label">Pending Records</div>
+          </div>
+          <div class="profile-stat-card" id="account-stat-card-levels" onclick="toggleAccountStatPanel('levels')">
+            <div class="profile-stat-value" id="account-stat-levels">—</div>
+            <div class="profile-stat-label">Submitted Levels</div>
+          </div>
+        </div>
+        <div class="profile-stat-panel" id="account-stat-panel" style="margin-top:1.25rem">
+          <div class="profile-stat-panel-title" id="account-stat-panel-title">—</div>
+          <div class="profile-stat-list" id="account-stat-list">
+            <div class="profile-stat-empty">No items to display.</div>
+          </div>
+        </div>
+        <div class="profile-modal-rank-row" style="margin-top:1.25rem">
+          <div class="profile-rank-box" id="account-rank-box">Ranked #—</div>
+          <div class="profile-rank-box" id="account-points-box">— pts</div>
+        </div>
       </div>
 
       <div class="update-section">
@@ -1925,7 +2009,10 @@
       <div class="update-section">
         <h3>Change Discord Username</h3>
         <div class="form-group">
-          <input type="text" id="new-discord" placeholder="New Discord username" />
+          <div class="input-prefix-wrap">
+            <span class="input-prefix">@</span>
+            <input type="text" id="new-discord" placeholder="New Discord username" />
+          </div>
         </div>
         <div class="update-actions">
           <button class="btn" onclick="changeDiscord()">Update Discord</button>
@@ -1933,7 +2020,7 @@
       </div>
 
       <div class="update-actions" style="margin-top:2rem">
-        <button class="btn danger" onclick="logout()">Log Out</button>
+        <button class="btn danger" onclick="openLogoutModal()">Log Out</button>
       </div>
     </div>
   </div>
@@ -1945,7 +2032,7 @@
 </div>
 
 <footer>
-  Wavelist 2026 · SaturnGD47
+  Wavelist 2026 · SaturnGD47 · v1.0.0
 </footer>
 
 <!-- Clear record form confirmation modal -->
@@ -1968,6 +2055,32 @@
     <div class="modal-actions">
       <button class="btn" onclick="closeClearLevelModal()">Cancel</button>
       <button class="btn danger" onclick="confirmClearLevel()">Clear Form</button>
+    </div>
+  </div>
+</div>
+
+<!-- Logout confirmation modal -->
+<div class="modal-overlay" id="logout-modal">
+  <div class="modal">
+    <h3>Log out?</h3>
+    <p>Are you sure you want to log out of your account?</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeLogoutModal()">Cancel</button>
+      <button class="btn danger" onclick="confirmLogout()">Log Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- Donate popup modal -->
+<div class="modal-overlay" id="donate-modal">
+  <div class="modal">
+    <h3>Support the Wavelist</h3>
+    <div class="donate-info-box">
+      Donating is completely optional and will not provide you any benefit over other users. Your donation will not be attached to your account, so the owner of this site will not see who donated.
+    </div>
+    <a class="btn cashapp" href="https://cash.app/$DevinSchmehr" target="_blank" rel="noopener">My Cash App</a>
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn" onclick="closeDonateModal()">Close</button>
     </div>
   </div>
 </div>
@@ -2078,6 +2191,7 @@
 
     if (name === 'leaderboard') renderLeaderboard();
     if (name === 'submit') updateSubmitGate();
+    if (name === 'account') renderAccountStats();
   }
 
   function showTab(name) {
@@ -2173,13 +2287,27 @@
     return n % 1 === 0 ? n.toString() : n.toFixed(1);
   }
 
+  function ensureDiscordPrefix(raw) {
+    const trimmed = (raw || '').trim();
+    if (!trimmed) return '';
+    return trimmed.startsWith('@') ? trimmed : '@' + trimmed;
+  }
+
+  function stripDiscordPrefix(raw) {
+    const trimmed = (raw || '').trim();
+    return trimmed.startsWith('@') ? trimmed.slice(1) : trimmed;
+  }
+
+  /* ============================================================
+     SIGNUP
+     ============================================================ */
   async function signup() {
     const username = document.getElementById('su-user').value.trim();
     const password = document.getElementById('su-pass').value;
     const gd       = document.getElementById('su-gd').value.trim();
-    const discord  = document.getElementById('su-discord').value.trim();
+    const discord  = ensureDiscordPrefix(document.getElementById('su-discord').value);
 
-    if (!username || !password || !gd || !discord) {
+    if (!username || !password || !gd || !discord || discord === '@') {
       return toast('Please fill in all fields.');
     }
 
@@ -2229,6 +2357,9 @@
     await refreshAuthState();
   }
 
+  /* ============================================================
+     LOGIN
+     ============================================================ */
   async function login() {
     const username = document.getElementById('login-user').value.trim();
     const password = document.getElementById('login-pass').value;
@@ -2257,12 +2388,31 @@
     await refreshAuthState();
   }
 
-  async function logout() {
+  /* ============================================================
+     LOGOUT (with confirmation modal)
+     ============================================================ */
+  function openLogoutModal() {
+    document.getElementById('logout-modal').classList.add('show');
+  }
+
+  function closeLogoutModal() {
+    document.getElementById('logout-modal').classList.remove('show');
+  }
+
+  async function confirmLogout() {
+    closeLogoutModal();
     await supabaseClient.auth.signOut();
     toast('Logged out.');
     await refreshAuthState();
   }
 
+  document.getElementById('logout-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'logout-modal') closeLogoutModal();
+  });
+
+  /* ============================================================
+     CHANGE USERNAME
+     ============================================================ */
   async function changeUsername() {
     const newName = document.getElementById('new-user').value.trim();
     if (!newName) return toast('Enter a new username.');
@@ -2289,6 +2439,9 @@
     await refreshAuthState();
   }
 
+  /* ============================================================
+     CHANGE GD USERNAME
+     ============================================================ */
   async function changeGD() {
     const newGD = document.getElementById('new-gd').value.trim();
     if (!newGD) return toast('Enter a new GD username.');
@@ -2307,9 +2460,12 @@
     await refreshAuthState();
   }
 
+  /* ============================================================
+     CHANGE DISCORD USERNAME
+     ============================================================ */
   async function changeDiscord() {
-    const newDisc = document.getElementById('new-discord').value.trim();
-    if (!newDisc) return toast('Enter a new Discord username.');
+    const newDisc = ensureDiscordPrefix(document.getElementById('new-discord').value);
+    if (!newDisc || newDisc === '@') return toast('Enter a new Discord username.');
 
     const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) return toast('You are not logged in.');
@@ -2325,6 +2481,9 @@
     await refreshAuthState();
   }
 
+  /* ============================================================
+     REFRESH AUTH STATE
+     ============================================================ */
   async function refreshAuthState() {
     const { data: { user } } = await supabaseClient.auth.getUser();
 
@@ -2355,7 +2514,10 @@
         document.getElementById('p-discord').textContent = profile.discord_username;
         document.getElementById('new-user').value = '';
         document.getElementById('new-gd').value = '';
+        // Note: new-discord stays empty so the user only sees the @ prefix
         document.getElementById('new-discord').value = '';
+
+        await renderAccountStats();
       }
     } else {
       authView.style.display = 'block';
@@ -2372,18 +2534,35 @@
 
     if (loggedIn) {
       container.innerHTML = `
+        <button class="btn donate" onclick="openDonateModal()">Donate</button>
         <button class="btn" onclick="showPage('account')">View Account</button>
-        <button class="btn danger" onclick="logout()">Sign Out</button>
+        <button class="btn danger" onclick="openLogoutModal()">Sign Out</button>
       `;
     } else {
       container.innerHTML = `
+        <button class="btn donate" onclick="openDonateModal()">Donate</button>
         <button class="btn" onclick="showPage('account')">Sign In</button>
       `;
     }
   }
 
   /* ============================================================
-     MAINLIST — Now resolves verifier UUID to username via profiles
+     DONATE MODAL
+     ============================================================ */
+  function openDonateModal() {
+    document.getElementById('donate-modal').classList.add('show');
+  }
+
+  function closeDonateModal() {
+    document.getElementById('donate-modal').classList.remove('show');
+  }
+
+  document.getElementById('donate-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'donate-modal') closeDonateModal();
+  });
+
+  /* ============================================================
+     MAINLIST
      ============================================================ */
   async function renderMainlist() {
     const container = document.getElementById('mainlist-content');
@@ -2419,14 +2598,16 @@
       const id   = level.level_id ? escapeHtml(level.level_id) : '';
       const creators = escapeHtml(level.level_creators || '');
 
-      // Resolve verifier username from UUID
+      let verifierHtml = '';
       let verifierDisplay = '';
       if (level.level_verifier && usernameById[level.level_verifier]) {
         verifierDisplay = usernameById[level.level_verifier];
+        const vid = level.level_verifier;
+        verifierHtml = `<span class="level-verifier-name" onclick="event.stopPropagation(); openProfileModalById('${vid}')">${escapeHtml(verifierDisplay)}</span>`;
       } else if (level.level_verifier) {
-        verifierDisplay = 'Unknown verifier';
+        verifierHtml = 'Unknown verifier';
       } else {
-        verifierDisplay = 'Verifier is not registered on the Wavelist';
+        verifierHtml = 'Verifier is not registered on the Wavelist';
       }
 
       const points = Number(level.points || 0);
@@ -2438,12 +2619,12 @@
       }
 
       let subHtml = '';
-      if (creators && verifierDisplay) {
-        subHtml = `${creators} | ${escapeHtml(verifierDisplay)}`;
+      if (creators && verifierHtml) {
+        subHtml = `${creators} | ${verifierHtml}`;
       } else if (creators) {
         subHtml = creators;
-      } else if (verifierDisplay) {
-        subHtml = escapeHtml(verifierDisplay);
+      } else if (verifierHtml) {
+        subHtml = verifierHtml;
       } else {
         subHtml = 'Unknown';
       }
@@ -2464,9 +2645,9 @@
           <div class="level-info">
             <div class="level-title">${titleHtml}</div>
             <div class="level-sub">${subHtml}</div>
-            ${submittedHtml}
           </div>
           <div class="level-points">${pointsDisplay}<span> pts</span></div>
+          ${submittedHtml}
         </div>
       `;
     }).join('');
@@ -2564,6 +2745,41 @@
   }
 
   /* ============================================================
+     SHARED HELPER — load a user's stats data
+     ============================================================ */
+  async function loadUserStatsData(userId) {
+    const [completionsRes, recordsRes, pendingRes, levelsRes] = await Promise.all([
+      supabaseClient.from('records')
+        .select('id, level_name, percent, video_url')
+        .eq('user_id', userId)
+        .eq('status', 'accepted')
+        .eq('percent', 100)
+        .order('level_name'),
+      supabaseClient.from('records')
+        .select('id, level_name, percent, video_url')
+        .eq('user_id', userId)
+        .eq('status', 'accepted')
+        .order('level_name'),
+      supabaseClient.from('records')
+        .select('id, level_name, percent, video_url')
+        .eq('user_id', userId)
+        .eq('status', 'pending')
+        .order('level_name'),
+      supabaseClient.from('levels')
+        .select('id, name, position')
+        .eq('submitted_by', userId)
+        .order('position')
+    ]);
+
+    return {
+      completions: completionsRes.data || [],
+      records: recordsRes.data || [],
+      pending: pendingRes.data || [],
+      levels: levelsRes.data || []
+    };
+  }
+
+  /* ============================================================
      PROFILE POPUP
      ============================================================ */
   let currentProfileUserId = null;
@@ -2596,33 +2812,7 @@
     document.getElementById('profile-points-box').textContent = '— pts';
     document.getElementById('profile-modal').classList.add('show');
 
-    const [completionsRes, recordsRes, pendingRes, levelsRes] = await Promise.all([
-      supabaseClient.from('records')
-        .select('id, level_name, percent, video_url')
-        .eq('user_id', userId)
-        .eq('status', 'accepted')
-        .eq('percent', 100)
-        .order('level_name'),
-      supabaseClient.from('records')
-        .select('id, level_name, percent, video_url')
-        .eq('user_id', userId)
-        .eq('status', 'accepted')
-        .order('level_name'),
-      supabaseClient.from('records')
-        .select('id, level_name, percent, video_url')
-        .eq('user_id', userId)
-        .eq('status', 'pending')
-        .order('level_name'),
-      supabaseClient.from('levels')
-        .select('id, name, position')
-        .eq('submitted_by', userId)
-        .order('position')
-    ]);
-
-    currentProfileData.completions = completionsRes.data || [];
-    currentProfileData.records     = recordsRes.data || [];
-    currentProfileData.pending     = pendingRes.data || [];
-    currentProfileData.levels      = levelsRes.data || [];
+    currentProfileData = await loadUserStatsData(userId);
 
     const rankIndex = ranked.findIndex(p => p.id === userId);
     const rankNum   = rankIndex >= 0 ? rankIndex + 1 : '—';
@@ -2634,6 +2824,79 @@
     document.getElementById('profile-stat-levels').textContent      = currentProfileData.levels.length;
     document.getElementById('profile-rank-box').textContent   = `Ranked #${rankNum}`;
     document.getElementById('profile-points-box').textContent = `${pointsDisplay} pts`;
+  }
+
+  async function openProfileModalById(userId) {
+    const ranked = window.__rankedPlayers || [];
+    if (ranked.find(p => p.id === userId)) {
+      return openProfileModal(userId);
+    }
+
+    const { data: profile } = await supabaseClient
+      .from('profiles')
+      .select('id, username, gd_username, discord_username')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (!profile) {
+      return toast('Could not find that user.');
+    }
+
+    currentProfileUserId = userId;
+    currentExpandedPanel = null;
+
+    document.getElementById('profile-stat-panel').classList.remove('show');
+    document.querySelectorAll('.profile-stat-card').forEach(c => c.classList.remove('expanded'));
+
+    document.getElementById('profile-modal-name').textContent = profile.username || '—';
+    document.getElementById('profile-modal-sub').textContent  = `${profile.gd_username || '—'} | ${profile.discord_username || '—'}`;
+    document.getElementById('profile-stat-completions').textContent = '…';
+    document.getElementById('profile-stat-records').textContent     = '…';
+    document.getElementById('profile-stat-pending').textContent     = '…';
+    document.getElementById('profile-stat-levels').textContent      = '…';
+    document.getElementById('profile-rank-box').textContent   = 'Ranked #—';
+    document.getElementById('profile-points-box').textContent = '— pts';
+    document.getElementById('profile-modal').classList.add('show');
+
+    currentProfileData = await loadUserStatsData(userId);
+
+    const [allProfilesRes, allLevelsRes, allRecordsRes] = await Promise.all([
+      supabaseClient.from('profiles').select('id, username'),
+      supabaseClient.from('levels').select('id, points'),
+      supabaseClient.from('records')
+        .select('user_id, level_id')
+        .eq('status', 'accepted')
+        .eq('percent', 100)
+    ]);
+
+    const levelPoints = {};
+    (allLevelsRes.data || []).forEach(l => { levelPoints[l.id] = Number(l.points || 0); });
+
+    const totals = {};
+    (allRecordsRes.data || []).forEach(r => {
+      const pts = levelPoints[r.level_id] || 0;
+      totals[r.user_id] = (totals[r.user_id] || 0) + pts;
+    });
+
+    const fullRanked = (allProfilesRes.data || []).map(p => ({
+      ...p,
+      totalPoints: totals[p.id] || 0
+    }));
+    fullRanked.sort((a, b) => {
+      if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
+      return (a.username || '').localeCompare(b.username || '');
+    });
+
+    const myIndex = fullRanked.findIndex(p => p.id === userId);
+    const rankNum = myIndex >= 0 ? myIndex + 1 : '—';
+    const points = totals[userId] || 0;
+
+    document.getElementById('profile-stat-completions').textContent = currentProfileData.completions.length;
+    document.getElementById('profile-stat-records').textContent     = currentProfileData.records.length;
+    document.getElementById('profile-stat-pending').textContent     = currentProfileData.pending.length;
+    document.getElementById('profile-stat-levels').textContent      = currentProfileData.levels.length;
+    document.getElementById('profile-rank-box').textContent   = `Ranked #${rankNum}`;
+    document.getElementById('profile-points-box').textContent = `${formatPoints(points)} pts`;
   }
 
   function toggleStatPanel(type) {
@@ -2665,7 +2928,7 @@
       renderRecordList(panelList, currentProfileData.pending, true);
     } else if (type === 'levels') {
       panelTitle.textContent = 'Submitted Levels';
-      renderSubmittedLevelList(panelList, currentProfileData.levels);
+      renderSubmittedLevelList(panelList, currentProfileData.levels, true);
     }
   }
 
@@ -2684,7 +2947,7 @@
     }).join('');
   }
 
-  function renderSubmittedLevelList(container, items) {
+  function renderSubmittedLevelList(container, items, clickable) {
     if (!items || items.length === 0) {
       container.innerHTML = '<div class="profile-stat-empty">No items to display.</div>';
       return;
@@ -2692,8 +2955,15 @@
     container.innerHTML = items.map(l => {
       const pos = l.position != null ? `#${l.position} - ` : '';
       const name = escapeHtml(l.name || 'Unknown level');
-      return `<div class="profile-stat-item">${pos}${name}</div>`;
+      const cls = clickable ? 'profile-stat-item clickable' : 'profile-stat-item';
+      const clickAttr = clickable ? ` onclick="openLevelModalFromProfile(${l.id})"` : '';
+      return `<div class="${cls}"${clickAttr}>${pos}${name}</div>`;
     }).join('');
+  }
+
+  function openLevelModalFromProfile(levelId) {
+    closeProfileModal();
+    openLevelModal(levelId);
   }
 
   function closeProfileModal() {
@@ -2704,6 +2974,107 @@
   document.getElementById('profile-modal').addEventListener('click', (e) => {
     if (e.target.id === 'profile-modal') closeProfileModal();
   });
+
+  /* ============================================================
+     ACCOUNT PAGE STATS SECTION
+     ============================================================ */
+  let currentAccountData = {
+    completions: [],
+    records: [],
+    pending: [],
+    levels: []
+  };
+  let currentExpandedAccountPanel = null;
+
+  async function renderAccountStats() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
+
+    currentExpandedAccountPanel = null;
+    const panel = document.getElementById('account-stat-panel');
+    if (panel) panel.classList.remove('show');
+    document.querySelectorAll('#page-account .profile-stat-card').forEach(c => c.classList.remove('expanded'));
+
+    document.getElementById('account-stat-completions').textContent = '…';
+    document.getElementById('account-stat-records').textContent     = '…';
+    document.getElementById('account-stat-pending').textContent     = '…';
+    document.getElementById('account-stat-levels').textContent      = '…';
+    document.getElementById('account-rank-box').textContent   = 'Ranked #—';
+    document.getElementById('account-points-box').textContent = '— pts';
+
+    currentAccountData = await loadUserStatsData(user.id);
+
+    const [profilesRes, levelsRes, recordsRes] = await Promise.all([
+      supabaseClient.from('profiles').select('id, username'),
+      supabaseClient.from('levels').select('id, points'),
+      supabaseClient.from('records')
+        .select('user_id, level_id')
+        .eq('status', 'accepted')
+        .eq('percent', 100)
+    ]);
+
+    const levelPoints = {};
+    (levelsRes.data || []).forEach(l => { levelPoints[l.id] = Number(l.points || 0); });
+
+    const totals = {};
+    (recordsRes.data || []).forEach(r => {
+      const pts = levelPoints[r.level_id] || 0;
+      totals[r.user_id] = (totals[r.user_id] || 0) + pts;
+    });
+
+    const ranked = (profilesRes.data || []).map(p => ({
+      ...p,
+      totalPoints: totals[p.id] || 0
+    }));
+    ranked.sort((a, b) => {
+      if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
+      return (a.username || '').localeCompare(b.username || '');
+    });
+
+    const myIndex = ranked.findIndex(p => p.id === user.id);
+    const myRank  = myIndex >= 0 ? myIndex + 1 : '—';
+    const myPoints = totals[user.id] || 0;
+
+    document.getElementById('account-stat-completions').textContent = currentAccountData.completions.length;
+    document.getElementById('account-stat-records').textContent     = currentAccountData.records.length;
+    document.getElementById('account-stat-pending').textContent     = currentAccountData.pending.length;
+    document.getElementById('account-stat-levels').textContent      = currentAccountData.levels.length;
+    document.getElementById('account-rank-box').textContent   = `Ranked #${myRank}`;
+    document.getElementById('account-points-box').textContent = `${formatPoints(myPoints)} pts`;
+  }
+
+  function toggleAccountStatPanel(type) {
+    const panel = document.getElementById('account-stat-panel');
+    const panelTitle = document.getElementById('account-stat-panel-title');
+    const panelList  = document.getElementById('account-stat-list');
+
+    if (currentExpandedAccountPanel === type) {
+      panel.classList.remove('show');
+      document.querySelectorAll('#page-account .profile-stat-card').forEach(c => c.classList.remove('expanded'));
+      currentExpandedAccountPanel = null;
+      return;
+    }
+
+    currentExpandedAccountPanel = type;
+    panel.classList.add('show');
+
+    document.querySelectorAll('#page-account .profile-stat-card').forEach(c => c.classList.remove('expanded'));
+    document.getElementById('account-stat-card-' + type).classList.add('expanded');
+
+    if (type === 'completions') {
+      panelTitle.textContent = 'Completed Levels';
+      renderRecordList(panelList, currentAccountData.completions, true);
+    } else if (type === 'records') {
+      panelTitle.textContent = 'Accepted Records';
+      renderRecordList(panelList, currentAccountData.records, true);
+    } else if (type === 'pending') {
+      panelTitle.textContent = 'Pending Records';
+      renderRecordList(panelList, currentAccountData.pending, true);
+    } else if (type === 'levels') {
+      panelTitle.textContent = 'Submitted Levels';
+      renderSubmittedLevelList(panelList, currentAccountData.levels, true);
+    }
+  }
 
   /* ============================================================
      LEVEL DETAILS POPUP
@@ -2749,7 +3120,6 @@
     document.getElementById('level-modal-creators').textContent =
       level.level_creators || 'Unknown';
 
-    // Resolve verifier UUID to username
     let verifierText = '';
     if (level.level_verifier && usernameById[level.level_verifier]) {
       verifierText = usernameById[level.level_verifier];
@@ -2861,15 +3231,6 @@
     if (e.target.id === 'level-modal') closeLevelModal();
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeProfileModal();
-      closeLevelModal();
-      closeClearModal();
-      closeClearLevelModal();
-    }
-  });
-
   /* ============================================================
      RECORD SUBMIT FORM
      ============================================================ */
@@ -2880,7 +3241,7 @@
     const btn = document.getElementById('record-submit-btn');
 
     const percentNum = Number(percent);
-    const validPercent = percent !== '' && !isNaN(percentNum) && percentNum >= 0 && percentNum <= 100;
+    const validPercent = percent !== '' && !isNaN(percentNum) && percentNum >= 1 && percentNum <= 100;
 
     btn.disabled = !(level && validPercent && video);
   }
@@ -2890,7 +3251,7 @@
     const percent  = Number(document.getElementById('record-percent').value.trim());
     const videoUrl = document.getElementById('record-video').value.trim();
 
-    if (!levelId || !videoUrl || isNaN(percent) || percent < 0 || percent > 100) {
+    if (!levelId || !videoUrl || isNaN(percent) || percent < 1 || percent > 100) {
       return toast('Please fill in all fields with valid values.');
     }
 
@@ -2993,13 +3354,11 @@
 
     setLoading('level-submit-btn', true, 'Submitting…', 'Submit Level');
 
-    // verifierVal is either "NOT_ON_WAVELIST" or a UUID
     let verifierUUID = null;
     let verifierUsername = null;
 
     if (verifierVal !== 'NOT_ON_WAVELIST') {
       verifierUUID = verifierVal;
-      // Look up the username snapshot
       const { data: verifierProfile } = await supabaseClient
         .from('profiles')
         .select('username')
@@ -3107,6 +3466,56 @@
 
     select.innerHTML = options.join('');
   }
+
+  /* ============================================================
+     DISCORD INPUT PREFIX HANDLING
+     ============================================================ */
+  function attachDiscordPrefixGuard(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    input.addEventListener('input', () => {
+      const val = input.value;
+      if (val.startsWith('@')) {
+        input.value = val.slice(1);
+      }
+    });
+  }
+  attachDiscordPrefixGuard('su-discord');
+  attachDiscordPrefixGuard('new-discord');
+
+  /* ============================================================
+     PERCENT INPUT SANITIZATION (1-100)
+     ============================================================ */
+  function attachPercentGuard() {
+    const input = document.getElementById('record-percent');
+    if (!input) return;
+
+    input.addEventListener('input', () => {
+      let val = input.value;
+      val = val.replace(/[^0-9]/g, '');
+      if (val === '') {
+        input.value = '';
+        updateRecordSubmit();
+        return;
+      }
+      let num = parseInt(val, 10);
+      if (num < 1) num = 1;
+      if (num > 100) num = 100;
+      input.value = num.toString();
+      updateRecordSubmit();
+    });
+
+    input.addEventListener('blur', () => {
+      if (input.value === '') return;
+      let num = parseInt(input.value, 10);
+      if (isNaN(num)) { input.value = ''; return; }
+      if (num < 1) num = 1;
+      if (num > 100) num = 100;
+      input.value = num.toString();
+      updateRecordSubmit();
+    });
+  }
+  attachPercentGuard();
 
   /* ============================================================
      INITIALIZE
