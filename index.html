@@ -1690,15 +1690,16 @@
       </div>
 
       <div class="info-card">
-        <h3>Record Requirements</h3>
+        <h3>Record Video Requirements</h3>
         <ol>
-          <li>Must contain audible clicks, even on mobile</li>
-          <li>Must contain your full unedited run, including your reaction if you had one</li>
-          <li>Must show the end screen after level completion</li>
-          <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack</li>
-          <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
-          <li>Must be recorded on at least 240p and 15fps</li>
-          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule.</li>
+          <li>Must contain audible clicks, even on mobile unless you record using the "show taps" feature on iOS or Android. A handcam can also replace audible clicks on both PC and mobile.</li>
+          <li>Must contain your full unedited run, with microphone input in the recording.</li>
+          <li>Must show the end screen after level completion, and must have cheat indicator on endscreen enabled.</li>
+          <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack.</li>
+          <li>Must not be using a clickbot such as "Click Sounds." A clickbot mod may be installed but must be disabled during the run.</li>
+          <li>Must be recorded on at least 240p and 15fps, unless the recording is an aimed camera device rather than a screenrecording.</li>
+          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule. A handcam can also replace the CPS label, but it cannot replace the cheat indicator.</li>
+          <li>We reccomend using one of the following mod menus: Megahack, QOL, or Eclipse. Other mod menus may be allowed, but addition human-to-human conversation may be required for record or video acceptance.</li>
         </ol>
       </div>
 
@@ -1747,13 +1748,14 @@
       <div class="info-card">
         <h3>Verification Requirements</h3>
         <ol>
-          <li>Must contain audible clicks, even on mobile</li>
-          <li>Must contain your full unedited run, including your reaction if you had one</li>
-          <li>Must show the end screen after level completion</li>
-          <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack</li>
-          <li>Must not be using a clickbot such as "Click Sounds" (mod may be installed and enabled but must be inactive during your run, you WILL be required to show that the mod is inactive if you have it installed and enabled)</li>
-          <li>Must be recorded on at least 240p and 15fps</li>
-          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule.</li>
+          <li>Must contain audible clicks, even on mobile unless you record using the "show taps" feature on iOS or Android. A handcam can also replace audible clicks on both PC and mobile.</li>
+          <li>Must contain your full unedited run, with microphone input in the recording.</li>
+          <li>Must show the end screen after level completion, and must have cheat indicator on endscreen enabled.</li>
+          <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack.</li>
+          <li>Must not be using a clickbot such as "Click Sounds." A clickbot mod may be installed but must be disabled during the run.</li>
+          <li>Must be recorded on at least 240p and 15fps, unless the recording is an aimed camera device rather than a screenrecording.</li>
+          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule. A handcam can also replace the CPS label, but it cannot replace the cheat indicator.</li>
+          <li>We reccomend using one of the following mod menus: Megahack, QOL, or Eclipse. Other mod menus may be allowed, but addition human-to-human conversation may be required for record or video acceptance.</li>
         </ol>
       </div>
 
@@ -1943,7 +1945,7 @@
 </div>
 
 <footer>
-  Wavelist 2026 · SaturnGD47 · v1.0.0
+  Wavelist 2026 · SaturnGD47 · v1.0.1
 </footer>
 
 <!-- Clear record form confirmation modal -->
@@ -3096,17 +3098,17 @@
 
     if (type === 'victors') {
       panelTitle.textContent = 'Victors';
-      renderLevelRecordList(panelList, currentLevelData.victors, false);
+      renderLevelRecordList(panelList, currentLevelData.victors, true, 'Click to watch');
     } else if (type === 'records') {
       panelTitle.textContent = 'Accepted Records';
       renderLevelRecordList(panelList, currentLevelData.records, true);
     } else if (type === 'pending') {
       panelTitle.textContent = 'Pending Records';
-      renderLevelRecordList(panelList, currentLevelData.pending, false);
+      renderLevelRecordList(panelList, currentLevelData.pending, false, 'Pending review');
     }
   }
 
-  function renderLevelRecordList(container, items, clickable) {
+  function renderLevelRecordList(container, items, clickable, label) {
     const usernameById = window.__usernameById || {};
     if (!items || items.length === 0) {
       container.innerHTML = '<div class="level-stat-empty">No items to display.</div>';
@@ -3125,7 +3127,7 @@
       return `
         <div class="level-stat-item"${clickAttr}>
           <div class="level-stat-item-name">${escapeHtml(playerName)}</div>
-          <div class="level-stat-item-sub">${clickable ? 'Click to watch' : 'Pending review'}</div>
+          <div class="level-stat-item-sub">${label}</div>
           <div class="level-stat-item-percent">${percent}%</div>
         </div>
       `;
