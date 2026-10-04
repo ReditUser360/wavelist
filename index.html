@@ -20,8 +20,6 @@
     --text: #eaeaf2;
     --text-dim: #a0a0b8;
     --danger: #ff5c7a;
-    --status-green: #4ade80;
-    --status-red: #f87171;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -582,94 +580,6 @@
   .changelog-value {
     color: var(--text);
     font-size: 0.98rem;
-  }
-
-  .upcoming-list {
-    display: grid;
-    gap: 1.25rem;
-  }
-  .upcoming-card {
-    position: relative;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 1.75rem 2rem;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-    transition: transform 0.2s ease, border-color 0.2s ease;
-  }
-  .upcoming-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(124, 92, 255, 0.4);
-  }
-  .upcoming-status {
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
-    padding: 0.35rem 0.9rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: white;
-    text-transform: uppercase;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-  }
-  .upcoming-status.green {
-    background: var(--status-green);
-  }
-  .upcoming-status.red {
-    background: var(--status-red);
-  }
-  .upcoming-header {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    padding-right: 8rem;
-    flex-wrap: wrap;
-  }
-  .upcoming-rank {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: -0.02em;
-  }
-  .upcoming-name {
-    font-size: 1.35rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  .upcoming-points {
-    font-weight: 700;
-    color: var(--accent-2);
-    font-size: 1.15rem;
-    margin-bottom: 1rem;
-  }
-  .upcoming-points span {
-    font-weight: 500;
-    color: var(--text-dim);
-    font-size: 0.9rem;
-  }
-  .upcoming-info {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 0.75rem 1rem;
-    line-height: 1.6;
-  }
-  .upcoming-info-label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-dim);
-    padding-top: 0.1rem;
-  }
-  .upcoming-info-value {
-    font-size: 0.98rem;
-    color: var(--text);
   }
 
   .form-group {
@@ -1454,11 +1364,6 @@
     .modal-actions .btn { width: 100%; }
     .changelog-entry { padding: 1.4rem 1.25rem; }
     .changelog-field { grid-template-columns: 1fr; gap: 0.25rem; }
-    .upcoming-card { padding: 1.4rem 1.25rem; }
-    .upcoming-info { grid-template-columns: 1fr; gap: 0.25rem; }
-    .upcoming-name { font-size: 1.15rem; }
-    .upcoming-rank { font-size: 1.25rem; }
-    .upcoming-header { padding-right: 0; }
     .profile-modal { padding: 2rem 1.5rem 1.5rem; }
     .profile-modal-close { top: 1rem; right: 1rem; }
     .profile-stat-value { font-size: 1.5rem; }
@@ -1523,20 +1428,12 @@
 
   <div class="tabs">
     <button class="tab active" data-tab="mainlist" onclick="showTab('mainlist')">Mainlist</button>
-    <button class="tab" data-tab="upcoming" onclick="showTab('upcoming')">Upcoming Forum</button>
     <button class="tab" data-tab="changelog" onclick="showTab('changelog')">Changelog</button>
   </div>
 
   <div class="tab-panel active" id="tab-mainlist">
     <div id="mainlist-content">
       <div class="loading">Loading mainlist…</div>
-    </div>
-  </div>
-
-  <div class="tab-panel" id="tab-upcoming">
-    <div class="empty-state">
-      <strong>Upcoming Forum is coming soon</strong>
-      This will be a space where creators can add their upcoming levels and share progress updates with the community. Check back later!
     </div>
   </div>
 
@@ -1841,7 +1738,7 @@
 </div>
 
 <footer>
-  Wavelist 2026 · SaturnGD47 · v1.0.2
+  Wavelist 2026 · SaturnGD47 · v1.0.3
 </footer>
 
 <!-- Clear record form confirmation modal -->
@@ -2156,11 +2053,6 @@
     const trimmed = (raw || '').trim();
     if (!trimmed) return '';
     return trimmed.startsWith('@') ? trimmed : '@' + trimmed;
-  }
-
-  function stripDiscordPrefix(raw) {
-    const trimmed = (raw || '').trim();
-    return trimmed.startsWith('@') ? trimmed.slice(1) : trimmed;
   }
 
   /* ============================================================
