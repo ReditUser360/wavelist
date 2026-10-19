@@ -526,6 +526,47 @@
     color: var(--accent-2);
     font-weight: 700;
   }
+  .requirement-category {
+    margin-top: 1.5rem;
+  }
+  .requirement-category:first-of-type {
+    margin-top: 1.25rem;
+  }
+  .requirement-category-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.65rem;
+    color: var(--text);
+  }
+  .requirement-list {
+    list-style: disc;
+    padding-left: 1.4rem;
+    margin: 0;
+  }
+  .requirement-list li {
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 0.98rem;
+    margin-bottom: 0.45rem;
+    padding-left: 0.2rem;
+  }
+  .requirement-list li:last-child {
+    margin-bottom: 0;
+  }
+  .requirement-list li::marker {
+    color: var(--accent-2);
+  }
+  .requirement-note {
+    background: rgba(79, 140, 255, 0.1);
+    border: 1px solid rgba(79, 140, 255, 0.35);
+    border-radius: 14px;
+    padding: 1.1rem 1.35rem;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 0.98rem;
+    margin-top: 1rem;
+  }
   .warning-note {
     background: rgba(255, 92, 122, 0.1);
     border: 1px solid rgba(255, 92, 122, 0.35);
@@ -808,6 +849,107 @@
     gap: 0.75rem;
     justify-content: flex-end;
     flex-wrap: wrap;
+  }
+  .external-url {
+    display: block;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Courier New', ui-monospace, monospace;
+    font-size: 0.85rem;
+    color: var(--accent-2);
+    word-break: break-all;
+    line-height: 1.5;
+  }
+
+  .stats-modal {
+    position: relative;
+    background: rgba(18, 18, 31, 0.92);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 2.5rem 2rem;
+    max-width: 620px;
+    width: 100%;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease;
+  }
+  .stats-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2;
+  }
+  .stats-modal-close:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(124, 92, 255, 0.4);
+  }
+  .stats-modal-close:active {
+    transform: scale(0.92);
+  }
+  .stats-modal-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.75rem;
+    padding-right: 2.5rem;
+    background: linear-gradient(135deg, #fff 0%, #b8b8d8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .stats-card {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    text-align: left;
+    user-select: none;
+  }
+  .stats-card-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+    word-break: break-word;
+  }
+  .stats-card-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 500;
+    letter-spacing: 0.01em;
   }
 
   .profile-modal {
@@ -1358,6 +1500,10 @@
     .info-card { padding: 1.5rem 1.25rem; }
     .info-card h3 { font-size: 1.1rem; }
     .info-card ol { padding-left: 1.25rem; font-size: 0.95rem; }
+    .requirement-category-title { font-size: 1rem; }
+    .requirement-list { padding-left: 1.2rem; }
+    .requirement-list li { font-size: 0.94rem; }
+    .requirement-note { padding: 1rem 1.15rem; font-size: 0.94rem; }
     .warning-note { padding: 1rem 1.15rem; font-size: 0.95rem; }
     .modal { padding: 1.5rem; }
     .modal-actions { flex-direction: column-reverse; }
@@ -1367,6 +1513,9 @@
     .profile-modal { padding: 2rem 1.5rem 1.5rem; }
     .profile-modal-close { top: 1rem; right: 1rem; }
     .profile-stat-value { font-size: 1.5rem; }
+    .stats-modal { padding: 2rem 1.5rem 1.5rem; }
+    .stats-modal-close { top: 1rem; right: 1rem; }
+    .stats-card-value { font-size: 1.5rem; }
 
     .level-modal { padding: 2rem 1.25rem 1.5rem; }
     .level-modal-close { top: 1rem; right: 1rem; }
@@ -1406,15 +1555,15 @@
   <div class="feature-grid">
     <div class="feature-card">
       <h3>Submit Your Levels</h3>
-      <p>Got a wave level you think deserves a spot? Send it in and it'll be reviewed for the mainlist.</p>
+      <p>Submit your very own levels for a chance that they get added to the list where other players can make progress.</p>
     </div>
     <div class="feature-card">
       <h3>View Player Stats</h3>
-      <p>Check the leaderboard to see where every player stands based on the levels they've completed.</p>
+      <p>Keep an eye on the leaderboard to see where you stand in comparison to other users based on their completions.</p>
     </div>
     <div class="feature-card">
-      <h3>Track Verifications</h3>
-      <p>Keep an eye on upcoming level verifications and see what's being worked on.</p>
+      <h3>Community Discussions</h3>
+      <p>Join the Discord server to stay up to date on stuff like verifications, updates, and more awesome discussions.</p>
     </div>
   </div>
 </div>
@@ -1478,22 +1627,90 @@
 
     <div class="tab-panel active" id="tab-submit-record">
       <div class="info-card">
-        <h3>Before You Submit</h3>
-        <p>Please note before submitting a record that your record video must be uploaded to YouTube. Your video may be set to unlisted if you would like.</p>
-      </div>
-
-      <div class="info-card">
         <h3>Record Requirements</h3>
-        <ol>
-          <li>Must contain audible clicks, even on mobile unless you record using the "show taps" feature on iOS or Android. A handcam can also replace audible clicks on both PC and mobile.</li>
-          <li>Must contain your full unedited run, with microphone input in the recording.</li>
-          <li>Must show the end screen after level completion, and must have cheat indicator on endscreen enabled.</li>
-          <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack.</li>
-          <li>Must not be using a clickbot such as "Click Sounds." A clickbot mod may be installed but must be disabled during the run.</li>
-          <li>Must be recorded on at least 240p and 15fps, unless the recording is an aimed camera device rather than a screenrecording.</li>
-          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule. A handcam can also replace the CPS label, but it cannot replace the cheat indicator.</li>
-          <li>We reccomend using one of the following mod menus: Megahack, QOL, or Eclipse. Other mod menus may be allowed, but addition human-to-human conversation may be required for record or video acceptance.</li>
-        </ol>
+
+        <div class="requirement-note">
+          We recommend using either Megahack, QOL, or Eclipse as your mod menu. Other menus may be allowed but additional conversation with a list editor will likely be required.
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Your video</div>
+          <ul class="requirement-list">
+            <li>Your video must show the entire attempt from start to finish.</li>
+            <li>Your video must show the end screen that occurs after level completion.</li>
+            <li>Your video is recommended to show part of the attempt before it, but not required.</li>
+            <li>Your video must not contain any cuts that happen during the attempt.</li>
+            <li>Your video may contain cuts during menu screens in the video for cinematic or entertainment purposes.</li>
+            <li>Your video must not contain any significant overlays that obstruct vision of the attempt.</li>
+            <li>Labels added by mods do not count as overlays that obstruct vision of the attempt.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Audio</div>
+          <ul class="requirement-list">
+            <li>Your video must contain audible microphone input throughout all significant parts of the recording.</li>
+            <li>Your microphone input must include audible clicks or taps.</li>
+            <li>If your video happens to be recorded using any software that records your inputs and displays them as visual aspects in your recording, your video will not be assessed on audible clicks or taps.</li>
+            <li>A GD mod that visually displays inputs on screen does not qualify as a software that records your inputs and displays them as visual aspects on your screen.</li>
+            <li>Your video must contain device audio audible throughout the entire video.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Quality</div>
+          <ul class="requirement-list">
+            <li>Your video must be recorded on at least 240p resolution.</li>
+            <li>Your video must be recorded on at least 15fps framerate.</li>
+            <li>Your video must showcase your entire screen.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Format</div>
+          <ul class="requirement-list">
+            <li>Your video must be uploaded to YouTube, Medal, or any other long-form video uploading platform accessible to all ages.</li>
+            <li>Your video must be uploaded in either a short form or watch form.</li>
+            <li>Your video may not be uploaded in a live form.</li>
+            <li>If your video is uploaded in a short form, it will be converted to a watch form before being displayed on the website.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Cheat Indicator</div>
+          <ul class="requirement-list">
+            <li>Your video must contain a cheat indicator on the end screen if your record was 100%.</li>
+            <li>Your video must contain a cheat indicator visible throughout the entire run unless your record was 100%.</li>
+            <li>Your cheat indicator must show green throughout your entire run if enabled.</li>
+            <li>Your cheat indicator must show green on the end screen if applicable.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">CPS Label</div>
+          <ul class="requirement-list">
+            <li>Your video must contain a CPS label visible throughout the entire run.</li>
+            <li>If your video happens to be recorded using any software that records your inputs and displays them as visual aspects in your recording, your video will not be assessed on a visible CPS label.</li>
+            <li>A GD mod that visually displays inputs on screen does not qualify as a software that records your inputs and displays them as visual aspects on your screen.</li>
+            <li>If your video contains a camera that is clearly aimed at your hand while playing, your video will not be assessed on a visible CPS label.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Other Disallowed Modifications</div>
+          <ul class="requirement-list">
+            <li>Any obviously illegal modification such as noclip, show hitboxes, or speedhack.</li>
+            <li>Any modification that makes hack detection practically impossible such as force invisible player.</li>
+            <li>Click Sounds or any mod with the same function.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Vanilla GD Exceptions</div>
+          <ul class="requirement-list">
+            <li>If your GD client is completely free of mods, you are exempt from every requirement listed in the Cheat Indicator and CPS Label sections.</li>
+          </ul>
+        </div>
       </div>
 
       <div class="warning-note" style="margin-bottom:1.5rem">
@@ -1513,8 +1730,8 @@
           <input type="number" id="record-percent" min="1" max="100" placeholder="Enter percent (1-100)" oninput="updateRecordSubmit()" />
         </div>
         <div class="form-group">
-          <label>Record video (YouTube link)</label>
-          <input type="text" id="record-video" placeholder="https://youtube.com/watch?v=..." oninput="updateRecordSubmit()" />
+          <label>Record video (Public video link)</label>
+          <input type="text" id="record-video" placeholder="https://example.com/watch?v=..." oninput="updateRecordSubmit()" />
         </div>
         <div class="update-actions" style="margin-top:1.5rem">
           <button class="btn primary" id="record-submit-btn" onclick="submitRecord()" disabled>Submit Record</button>
@@ -1525,31 +1742,100 @@
 
     <div class="tab-panel" id="tab-submit-level">
       <div class="info-card">
-        <h3>Before You Submit</h3>
-        <p>Please note before submitting a level that your verification video must be uploaded to YouTube. Your video may be set to unlisted if you would like.</p>
-      </div>
-
-      <div class="info-card">
         <h3>Level Requirements</h3>
         <ol>
           <li>Must consist of no other game mode except wave</li>
           <li>Must not contain any crash triggers</li>
           <li>Must not be set to unlisted</li>
+          <li>Must pass basic quality control</li>
         </ol>
       </div>
 
       <div class="info-card">
         <h3>Verification Requirements</h3>
-        <ol>
-          <li>Must contain audible clicks, even on mobile unless you record using the "show taps" feature on iOS or Android. A handcam can also replace audible clicks on both PC and mobile.</li>
-          <li>Must contain your full unedited run, with microphone input in the recording.</li>
-          <li>Must show the end screen after level completion, and must have cheat indicator on endscreen enabled.</li>
-          <li>Must not be using any obviously illegal modifications such as noclip, show hitboxes, or speedhack.</li>
-          <li>Must not be using a clickbot such as "Click Sounds." A clickbot mod may be installed but must be disabled during the run.</li>
-          <li>Must be recorded on at least 240p and 15fps, unless the recording is an aimed camera device rather than a screenrecording.</li>
-          <li>Must be using a cheat indicator and CPS label that are visible throughout the run. If you are on vanilla GD, you bypass this rule. A handcam can also replace the CPS label, but it cannot replace the cheat indicator.</li>
-          <li>We reccomend using one of the following mod menus: Megahack, QOL, or Eclipse. Other mod menus may be allowed, but addition human-to-human conversation may be required for record or video acceptance.</li>
-        </ol>
+
+        <div class="requirement-note">
+          We recommend using either Megahack, QOL, or Eclipse as your mod menu. Other menus may be allowed but additional conversation with a list editor will likely be required.
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Your video</div>
+          <ul class="requirement-list">
+            <li>Your video must show the entire attempt from start to finish.</li>
+            <li>Your video must show the end screen that occurs after level completion.</li>
+            <li>Your video is recommended to show part of the attempt before it, but not required.</li>
+            <li>Your video must not contain any cuts that happen during the attempt.</li>
+            <li>Your video may contain cuts during menu screens in the video for cinematic or entertainment purposes.</li>
+            <li>Your video must not contain any significant overlays that obstruct vision of the attempt.</li>
+            <li>Labels added by mods do not count as overlays that obstruct vision of the attempt.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Audio</div>
+          <ul class="requirement-list">
+            <li>Your video must contain audible microphone input throughout all significant parts of the recording.</li>
+            <li>Your microphone input must include audible clicks or taps.</li>
+            <li>If your video happens to be recorded using any software that records your inputs and displays them as visual aspects in your recording, your video will not be assessed on audible clicks or taps.</li>
+            <li>A GD mod that visually displays inputs on screen does not qualify as a software that records your inputs and displays them as visual aspects on your screen.</li>
+            <li>Your video must contain device audio audible throughout the entire video.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Quality</div>
+          <ul class="requirement-list">
+            <li>Your video must be recorded on at least 240p resolution.</li>
+            <li>Your video must be recorded on at least 15fps framerate.</li>
+            <li>Your video must showcase your entire screen.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Format</div>
+          <ul class="requirement-list">
+            <li>Your video must be uploaded to YouTube. Other video uploading platforms are not permitted for verification videos due to embedding on site.</li>
+            <li>Your video must be uploaded in either a short form or watch form.</li>
+            <li>Your video may not be uploaded in a live form.</li>
+            <li>If your video is uploaded in a short form, it will be converted to a watch form before being displayed on the website.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Cheat Indicator</div>
+          <ul class="requirement-list">
+            <li>Your video must contain a cheat indicator on the end screen if your record was 100%.</li>
+            <li>Your video must contain a cheat indicator visible throughout the entire run unless your record was 100%.</li>
+            <li>Your cheat indicator must show green throughout your entire run if enabled.</li>
+            <li>Your cheat indicator must show green on the end screen if applicable.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">CPS Label</div>
+          <ul class="requirement-list">
+            <li>Your video must contain a CPS label visible throughout the entire run.</li>
+            <li>If your video happens to be recorded using any software that records your inputs and displays them as visual aspects in your recording, your video will not be assessed on a visible CPS label.</li>
+            <li>A GD mod that visually displays inputs on screen does not qualify as a software that records your inputs and displays them as visual aspects on your screen.</li>
+            <li>If your video contains a camera that is clearly aimed at your hand while playing, your video will not be assessed on a visible CPS label.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Other Disallowed Modifications</div>
+          <ul class="requirement-list">
+            <li>Any obviously illegal modification such as noclip, show hitboxes, or speedhack.</li>
+            <li>Any modification that makes hack detection practically impossible such as force invisible player.</li>
+            <li>Click Sounds or any mod with the same function.</li>
+          </ul>
+        </div>
+
+        <div class="requirement-category">
+          <div class="requirement-category-title">Vanilla GD Exceptions</div>
+          <ul class="requirement-list">
+            <li>If your GD client is completely free of mods, you are exempt from every requirement listed in the Cheat Indicator and CPS Label sections.</li>
+          </ul>
+        </div>
       </div>
 
       <div class="warning-note" style="margin-bottom:1.5rem">
@@ -1734,11 +2020,11 @@
 
 <div class="discord-callout">
   This website is intended for members of our Discord server. Not a member yet?
-  <a href="https://discord.gg/SbCD9PZ6zT" target="_blank" rel="noopener">Join here</a>.
+  <a href="https://discord.gg/SbCD9PZ6zT" target="_blank" rel="noopener" class="external-link">Join here</a>.
 </div>
 
 <footer>
-  Wavelist 2026 · SaturnGD47 · v1.0.3
+  Wavelist 2026 · SaturnGD47 · v1.2.0
 </footer>
 
 <!-- Clear record form confirmation modal -->
@@ -1784,9 +2070,56 @@
     <div class="donate-info-box">
       Donating is completely optional and will not provide you any benefit over other users. Your donation will not be attached to your account, so the owner of this site will not see who donated.
     </div>
-    <a class="btn cashapp" href="https://cash.app/$DevinSchmehr" target="_blank" rel="noopener">My Cash App</a>
+    <a class="btn cashapp external-link" href="https://cash.app/$DevinSchmehr" target="_blank" rel="noopener">My Cash App</a>
     <div class="modal-actions" style="margin-top:1rem">
       <button class="btn" onclick="closeDonateModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- External link confirmation modal -->
+<div class="modal-overlay" id="external-modal">
+  <div class="modal">
+    <h3>Leaving the Wavelist</h3>
+    <p>You are about to be redirected to an external website. Do you want to continue?</p>
+    <div class="external-url" id="external-url">—</div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeExternalModal()">Cancel</button>
+      <button class="btn primary" onclick="confirmExternalRedirect()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- Statistics popup modal -->
+<div class="modal-overlay" id="stats-modal">
+  <div class="stats-modal">
+    <button class="stats-modal-close" onclick="closeStatsModal()" title="Close">&times;</button>
+    <div class="stats-modal-title">Statistics</div>
+    <div class="stats-grid">
+      <div class="stats-card">
+        <div class="stats-card-value" id="stats-levels">…</div>
+        <div class="stats-card-label">Levels</div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-card-value" id="stats-records">…</div>
+        <div class="stats-card-label">Records</div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-card-value" id="stats-profiles">…</div>
+        <div class="stats-card-label">Profiles</div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-card-value" id="stats-pending-records">…</div>
+        <div class="stats-card-label">Pending Records</div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-card-value" id="stats-total-points">…</div>
+        <div class="stats-card-label">Total Points Earned</div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-card-value" id="stats-changelog">…</div>
+        <div class="stats-card-label">Total Changes Logged</div>
+      </div>
     </div>
   </div>
 </div>
@@ -2046,7 +2379,19 @@
 
   function formatPoints(pts) {
     const n = Number(pts || 0);
-    return n % 1 === 0 ? n.toString() : n.toFixed(1);
+    return n.toFixed(1);
+  }
+
+  /**
+   * Calculate a level's points from its rank (position), using the
+   * formula y = round(50 * (1/50)^((x-1)/29), 1), so rank 1 = 50 pts
+   * and rank 30 = 1 pt. Rounds to the nearest 10th.
+   */
+  function calculatePoints(position) {
+    const x = Number(position);
+    if (!x || x < 1) return 0;
+    const raw = 50 * Math.pow(1 / 50, (x - 1) / 29);
+    return Math.round(raw * 10) / 10;
   }
 
   function ensureDiscordPrefix(raw) {
@@ -2054,6 +2399,50 @@
     if (!trimmed) return '';
     return trimmed.startsWith('@') ? trimmed : '@' + trimmed;
   }
+
+  /* ============================================================
+     EXTERNAL LINK CONFIRMATION
+     ============================================================ */
+  let pendingExternalUrl = null;
+
+  function closeAllModals() {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+  }
+
+  function requestExternalRedirect(url) {
+    if (!url) return;
+    closeAllModals();
+    pendingExternalUrl = url;
+    document.getElementById('external-url').textContent = url;
+    document.getElementById('external-modal').classList.add('show');
+  }
+
+  function closeExternalModal() {
+    pendingExternalUrl = null;
+    document.getElementById('external-url').textContent = '—';
+    document.getElementById('external-modal').classList.remove('show');
+  }
+
+  function confirmExternalRedirect() {
+    const url = pendingExternalUrl;
+    pendingExternalUrl = null;
+    document.getElementById('external-url').textContent = '—';
+    document.getElementById('external-modal').classList.remove('show');
+    if (url) window.open(url, '_blank', 'noopener');
+  }
+
+  document.getElementById('external-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'external-modal') closeExternalModal();
+  });
+
+  // Intercept clicks on any element with class "external-link".
+  document.body.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a.external-link');
+    if (anchor) {
+      e.preventDefault();
+      requestExternalRedirect(anchor.getAttribute('href'));
+    }
+  });
 
   /* ============================================================
      SIGNUP
@@ -2290,13 +2679,13 @@
 
     if (loggedIn) {
       container.innerHTML = `
-        <button class="btn donate" onclick="openDonateModal()">Donate</button>
+        <button class="btn" onclick="openStatsModal()">Statistics</button>
         <button class="btn" onclick="showPage('account')">View Account</button>
         <button class="btn danger" onclick="openLogoutModal()">Sign Out</button>
       `;
     } else {
       container.innerHTML = `
-        <button class="btn donate" onclick="openDonateModal()">Donate</button>
+        <button class="btn" onclick="openStatsModal()">Statistics</button>
         <button class="btn" onclick="showPage('account')">Sign In</button>
       `;
     }
@@ -2315,6 +2704,81 @@
 
   document.getElementById('donate-modal').addEventListener('click', (e) => {
     if (e.target.id === 'donate-modal') closeDonateModal();
+  });
+
+  /* ============================================================
+     STATISTICS MODAL
+     ============================================================ */
+  async function openStatsModal() {
+    document.getElementById('stats-levels').textContent          = '…';
+    document.getElementById('stats-records').textContent         = '…';
+    document.getElementById('stats-profiles').textContent        = '…';
+    document.getElementById('stats-pending-records').textContent = '…';
+    document.getElementById('stats-total-points').textContent    = '…';
+    document.getElementById('stats-changelog').textContent       = '…';
+    document.getElementById('stats-modal').classList.add('show');
+
+    const [
+      levelsRes,
+      recordsRes,
+      profilesRes,
+      pendingRecordsRes,
+      changelogRes,
+      allLevelsRes,
+      allRecordsRes
+    ] = await Promise.all([
+      supabaseClient.from('levels').select('*', { count: 'exact', head: true }),
+      supabaseClient.from('records').select('*', { count: 'exact', head: true }).eq('status', 'accepted'),
+      supabaseClient.from('profiles').select('*', { count: 'exact', head: true }),
+      supabaseClient.from('records').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+      supabaseClient.from('changelog').select('*', { count: 'exact', head: true }),
+      supabaseClient.from('levels').select('id, position'),
+      supabaseClient.from('records').select('user_id, level_id')
+        .eq('status', 'accepted')
+        .eq('percent', 100)
+    ]);
+
+    const setStat = (id, res) => {
+      const el = document.getElementById(id);
+      if (res.error) {
+        console.error('Stats query error for ' + id + ':', res.error);
+        el.textContent = '—';
+        return;
+      }
+      el.textContent = res.count != null ? res.count : '0';
+    };
+
+    setStat('stats-levels', levelsRes);
+    setStat('stats-records', recordsRes);
+    setStat('stats-profiles', profilesRes);
+    setStat('stats-pending-records', pendingRecordsRes);
+    setStat('stats-changelog', changelogRes);
+
+    const pointsEl = document.getElementById('stats-total-points');
+    if (allLevelsRes.error || allRecordsRes.error) {
+      console.error('Stats query error for total points:', allLevelsRes.error || allRecordsRes.error);
+      pointsEl.textContent = '—';
+    } else {
+      const levelPoints = {};
+      (allLevelsRes.data || []).forEach(l => {
+        levelPoints[l.id] = calculatePoints(l.position);
+      });
+
+      let totalPoints = 0;
+      (allRecordsRes.data || []).forEach(r => {
+        totalPoints += levelPoints[r.level_id] || 0;
+      });
+
+      pointsEl.textContent = formatPoints(totalPoints);
+    }
+  }
+
+  function closeStatsModal() {
+    document.getElementById('stats-modal').classList.remove('show');
+  }
+
+  document.getElementById('stats-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'stats-modal') closeStatsModal();
   });
 
   /* ============================================================
@@ -2366,7 +2830,7 @@
         verifierHtml = 'Verifier is not registered on the Wavelist';
       }
 
-      const points = Number(level.points || 0);
+      const points = calculatePoints(rank);
       const pointsDisplay = formatPoints(points);
 
       let titleHtml = `${rank}. ${name}`;
@@ -2434,7 +2898,7 @@
 
     const { data: levels, error: levelsError } = await supabaseClient
       .from('levels')
-      .select('id, points');
+      .select('id, position');
 
     if (levelsError) {
       container.innerHTML = `<div class="empty-state"><strong>Couldn't load levels</strong>${escapeHtml(levelsError.message)}</div>`;
@@ -2442,7 +2906,7 @@
     }
 
     const levelPoints = {};
-    (levels || []).forEach(l => { levelPoints[l.id] = Number(l.points || 0); });
+    (levels || []).forEach(l => { levelPoints[l.id] = calculatePoints(l.position); });
 
     const { data: records, error: recordsError } = await supabaseClient
       .from('records')
@@ -2618,7 +3082,7 @@
 
     const [allProfilesRes, allLevelsRes, allRecordsRes] = await Promise.all([
       supabaseClient.from('profiles').select('id, username'),
-      supabaseClient.from('levels').select('id, points'),
+      supabaseClient.from('levels').select('id, position'),
       supabaseClient.from('records')
         .select('user_id, level_id')
         .eq('status', 'accepted')
@@ -2626,7 +3090,7 @@
     ]);
 
     const levelPoints = {};
-    (allLevelsRes.data || []).forEach(l => { levelPoints[l.id] = Number(l.points || 0); });
+    (allLevelsRes.data || []).forEach(l => { levelPoints[l.id] = calculatePoints(l.position); });
 
     const totals = {};
     (allRecordsRes.data || []).forEach(r => {
@@ -2698,7 +3162,7 @@
       const percent = Number(r.percent || 0);
       const url = r.video_url ? escapeHtml(r.video_url) : '';
       const cls = (clickable && url) ? 'profile-stat-item clickable' : 'profile-stat-item';
-      const clickAttr = (clickable && url) ? ` onclick="window.open('${url}', '_blank', 'noopener')"` : '';
+      const clickAttr = (clickable && url) ? ` onclick="requestExternalRedirect('${url}')"` : '';
       return `<div class="${cls}"${clickAttr}>${name}<span class="profile-stat-item-percent">${percent}%</span></div>`;
     }).join('');
   }
@@ -2762,7 +3226,7 @@
 
     const [profilesRes, levelsRes, recordsRes] = await Promise.all([
       supabaseClient.from('profiles').select('id, username'),
-      supabaseClient.from('levels').select('id, points'),
+      supabaseClient.from('levels').select('id, position'),
       supabaseClient.from('records')
         .select('user_id, level_id')
         .eq('status', 'accepted')
@@ -2770,7 +3234,7 @@
     ]);
 
     const levelPoints = {};
-    (levelsRes.data || []).forEach(l => { levelPoints[l.id] = Number(l.points || 0); });
+    (levelsRes.data || []).forEach(l => { levelPoints[l.id] = calculatePoints(l.position); });
 
     const totals = {};
     (recordsRes.data || []).forEach(r => {
@@ -2967,7 +3431,7 @@
       const playerName = usernameById[r.user_id] || 'Unknown player';
       const percent = Number(r.percent || 0);
       const url = r.video_url ? escapeHtml(r.video_url) : '';
-      const clickAttr = (clickable && url) ? ` onclick="window.open('${url}', '_blank', 'noopener')"` : '';
+      const clickAttr = (clickable && url) ? ` onclick="requestExternalRedirect('${url}')"` : '';
       return `
         <div class="level-stat-item"${clickAttr}>
           <div class="level-stat-item-name">${escapeHtml(playerName)}</div>
