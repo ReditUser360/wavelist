@@ -7,14 +7,15 @@ If you want to see the origional Google Site out of curiosity, you can tag me in
 Just keep in mind that the Google Site includes things like Google Forms for record and level submission, these forms do technically still work but this is not a valid way to submit records or levels.
 It's a fun thing to check out but if you do try to submit records or levels from there you will be ignored because I don't check them anymore.
 
-Anyway now that yap session is out of the way, I will keep an updating list of list editors in the readme, as well as their Discord names so you can contact them in the server (they are all in the server).
-I am the only website manager and the only person who has access to change any of the code, including the account database (hosted using Subabase) and the level system containing all the mainlist levels.
+Anyway now that yap session is out of the way, I will put some information here about being involved in the community, incase you are interested in becoming a list editor.
+I am the only website manager and the only person who has access to change any of the code, including the account database and the level system containing all the mainlist levels (all hosted using Supabase).
 However there are still list editors that can decide on placements. These editors can simply talk with the other list editors and decide on changes together.
 I personally take a very unbiased approach when it comes to this, so I do not proritize my opinion over anybody else's opinions simply because I am the only one with the power to physically make the change.
-So without further ado, here is the full (updating) list of list editors so you can contact one of us to propose a change:
-
-Saturn (Me) @saturndc47,
-Marcus @theladsofficialshow
-
-That's it for now, mostly I only add people who I know personally, but if you are active in the community and have good opinions regarding levels with wave gameplay, I might consider adding you.
-The only things that you should definitely have before trying to become a list editor are a Wavelist account, and at least some notable progress on top mainlist levels.
+If you are interested in becoming a list editor, you can talk to me on Discord @saturndc47. You can DM me or ping me in the Discord server that is joinable via the website.
+Honestly being a list editor isn't really that interesting right now, I haven't set up a channel in the server, or displayed the list of editors on the website yet.
+The only thing that might change if you are a list editor is that I will prioritize your opinions over the opinions of other people in the community.
+Being a list editor does have some requirements though. These include being around the same skill level as the current top levels on the list, and being involved in the community and Wavelist.
+Even if you are involved in the community, I will likely not choose you to be a list editor if you are not involved in the Wavelist specifically. You also must be a kind member in the community.
+If you have created conflicts with people in the server before, especially admin, you will most likely not become a list editor.
+If you know me personally, you are must more likely to become a list editor, however this is not guaranteed, especially if you are not involved a lot in GD or the Wavelist.
+I will update you guys if list editors become more ingrained in the community, but if this happens more information is likely to be in the Discord server or website, not the GitHub README file.
