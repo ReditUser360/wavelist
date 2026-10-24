@@ -371,6 +371,20 @@
     font-size: 1.05rem;
   }
 
+  .leaderboard-section-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin: 2rem 0 0.9rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .leaderboard-section-title:first-child {
+    margin-top: 0;
+  }
+
   .level-row {
     position: relative;
     display: grid;
@@ -621,6 +635,7 @@
   .changelog-value {
     color: var(--text);
     font-size: 0.98rem;
+    white-space: pre-wrap;
   }
 
   .form-group {
@@ -862,6 +877,75 @@
     color: var(--accent-2);
     word-break: break-all;
     line-height: 1.5;
+  }
+
+  .content-modal {
+    position: relative;
+    background: rgba(18, 18, 31, 0.9);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 2.5rem 2rem;
+    max-width: 560px;
+    width: 100%;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease;
+  }
+  .content-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2;
+  }
+  .content-modal-close:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(124, 92, 255, 0.4);
+  }
+  .content-modal-close:active {
+    transform: scale(0.92);
+  }
+  .content-modal-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    padding-right: 2.5rem;
+    background: linear-gradient(135deg, #fff 0%, #b8b8d8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    word-break: break-word;
+  }
+  .content-modal-body {
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .content-modal-body p {
+    margin-bottom: 1rem;
+  }
+  .content-modal-body p:last-child {
+    margin-bottom: 0;
   }
 
   .stats-modal {
@@ -1516,6 +1600,8 @@
     .stats-modal { padding: 2rem 1.5rem 1.5rem; }
     .stats-modal-close { top: 1rem; right: 1rem; }
     .stats-card-value { font-size: 1.5rem; }
+    .content-modal { padding: 2rem 1.5rem 1.5rem; }
+    .content-modal-close { top: 1rem; right: 1rem; }
 
     .level-modal { padding: 2rem 1.25rem 1.5rem; }
     .level-modal-close { top: 1rem; right: 1rem; }
@@ -1736,6 +1822,7 @@
         <div class="update-actions" style="margin-top:1.5rem">
           <button class="btn primary" id="record-submit-btn" onclick="submitRecord()" disabled>Submit Record</button>
           <button class="btn danger" onclick="openClearModal()">Clear Form</button>
+          <button class="btn" onclick="openRecordsInfoModal()">More Info</button>
         </div>
       </div>
     </div>
@@ -2024,7 +2111,7 @@
 </div>
 
 <footer>
-  Wavelist 2026 · SaturnGD47 · v1.2.0
+  Wavelist 2026 · SaturnGD47 · v1.2.1
 </footer>
 
 <!-- Clear record form confirmation modal -->
@@ -2086,6 +2173,20 @@
     <div class="modal-actions">
       <button class="btn" onclick="closeExternalModal()">Cancel</button>
       <button class="btn primary" onclick="confirmExternalRedirect()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- More info on records modal -->
+<div class="modal-overlay" id="records-info-modal">
+  <div class="content-modal">
+    <button class="content-modal-close" onclick="closeRecordsInfoModal()" title="Close">&times;</button>
+    <div class="content-modal-title">More Info</div>
+    <div class="content-modal-body" id="records-info-body">
+      <p>A record is any legitimate recording of progress being made on a level in the wavelist. This can be of any percentage, but this will change if people start being trolls and trying to submit a million 1% records.</p>
+      <p>All records are typically reviewed within 48 hours of submission, and you will get notified if your record is rejected.</p>
+      <p>If you submit a record on a level twice, the one with the greater percentage will take dominance. If you try to submit multiple 100% records on one level, only one will be considered legitimate. This is because otherwise people could abuse this trick and gain way too many points.</p>
+      <p>If you are the verifier of a level, a 100% record will automatically be added for you as soon as the level is placed. This is different from most other lists where you are not considered a victor of the level if you verify it.</p>
     </div>
   </div>
 </div>
@@ -2292,7 +2393,7 @@
       const changeHtml = `
         <div class="changelog-field">
           <div class="changelog-label">Change:</div>
-          <div class="changelog-value">${escapeHtml(entry.change || '')}</div>
+          <div class="changelog-value">${formatMultiline(entry.change)}</div>
         </div>
       `;
 
@@ -2301,7 +2402,7 @@
         reasonHtml = `
           <div class="changelog-field">
             <div class="changelog-label">Reason:</div>
-            <div class="changelog-value">${escapeHtml(entry.reason)}</div>
+            <div class="changelog-value">${formatMultiline(entry.reason)}</div>
           </div>
         `;
       }
@@ -2352,6 +2453,11 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
+  }
+
+  function formatMultiline(str) {
+    if (str == null) return '';
+    return escapeHtml(str).replace(/\n/g, '<br>');
   }
 
   function toYouTubeEmbed(url) {
@@ -2442,6 +2548,21 @@
       e.preventDefault();
       requestExternalRedirect(anchor.getAttribute('href'));
     }
+  });
+
+  /* ============================================================
+     MORE INFO ON RECORDS MODAL
+     ============================================================ */
+  function openRecordsInfoModal() {
+    document.getElementById('records-info-modal').classList.add('show');
+  }
+
+  function closeRecordsInfoModal() {
+    document.getElementById('records-info-modal').classList.remove('show');
+  }
+
+  document.getElementById('records-info-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'records-info-modal') closeRecordsInfoModal();
   });
 
   /* ============================================================
@@ -2942,26 +3063,51 @@
 
     window.__rankedPlayers = ranked;
 
-    container.innerHTML = ranked.map((p, i) => {
-      const rank = i + 1;
-      let rankClass = '';
-      if (rank === 1) rankClass = 'top1';
-      else if (rank === 2) rankClass = 'top2';
-      else if (rank === 3) rankClass = 'top3';
+    const scored = ranked.filter(p => p.totalPoints > 0);
+    const unscored = ranked.filter(p => p.totalPoints === 0);
 
-      const pointsDisplay = formatPoints(p.totalPoints);
+    let html = '';
 
-      return `
-        <div class="list-row" onclick="openProfileModal('${p.id}')">
-          <div class="rank ${rankClass}">${rank}</div>
-          <div>
-            <div class="row-name">${escapeHtml(p.username)}</div>
-            <div class="row-sub">${escapeHtml(p.gd_username)} | ${escapeHtml(p.discord_username)}</div>
+    if (scored.length > 0) {
+      html += scored.map((p, i) => {
+        const rank = i + 1;
+        let rankClass = '';
+        if (rank === 1) rankClass = 'top1';
+        else if (rank === 2) rankClass = 'top2';
+        else if (rank === 3) rankClass = 'top3';
+
+        const pointsDisplay = formatPoints(p.totalPoints);
+
+        return `
+          <div class="list-row" onclick="openProfileModal('${p.id}')">
+            <div class="rank ${rankClass}">${rank}</div>
+            <div>
+              <div class="row-name">${escapeHtml(p.username)}</div>
+              <div class="row-sub">${escapeHtml(p.gd_username)} | ${escapeHtml(p.discord_username)}</div>
+            </div>
+            <div class="row-stat">${pointsDisplay} pts</div>
           </div>
-          <div class="row-stat">${pointsDisplay} pts</div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }).join('');
+    }
+
+    if (unscored.length > 0) {
+      html += `<div class="leaderboard-section-title">No Points Yet</div>`;
+      html += unscored.map(p => {
+        return `
+          <div class="list-row" onclick="openProfileModal('${p.id}')">
+            <div class="rank">—</div>
+            <div>
+              <div class="row-name">${escapeHtml(p.username)}</div>
+              <div class="row-sub">${escapeHtml(p.gd_username)} | ${escapeHtml(p.discord_username)}</div>
+            </div>
+            <div class="row-stat">${formatPoints(0)} pts</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    container.innerHTML = html;
   }
 
   /* ============================================================
