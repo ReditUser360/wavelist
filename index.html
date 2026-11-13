@@ -2098,6 +2098,21 @@
         </div>
       </div>
 
+      <div class="update-section">
+        <h3>Change Password</h3>
+        <div class="form-group">
+          <label>New password</label>
+          <input type="password" id="new-pass" placeholder="New password (min 6 characters)" autocomplete="new-password" />
+        </div>
+        <div class="form-group">
+          <label>Confirm new password</label>
+          <input type="password" id="confirm-pass" placeholder="Re-enter new password" autocomplete="new-password" />
+        </div>
+        <div class="update-actions">
+          <button class="btn" id="change-pass-btn" onclick="changePassword()">Update Password</button>
+        </div>
+      </div>
+
       <div class="update-actions" style="margin-top:2rem">
         <button class="btn danger" onclick="openLogoutModal()">Log Out</button>
       </div>
@@ -2111,7 +2126,7 @@
 </div>
 
 <footer>
-  Wavelist 2026 · SaturnGD47 · v1.2.1
+  Wavelist 2026 · SaturnGD47 · v1.2.2
 </footer>
 
 <!-- Clear record form confirmation modal -->
@@ -2749,6 +2764,42 @@
   }
 
   /* ============================================================
+     CHANGE PASSWORD
+     ============================================================ */
+  async function changePassword() {
+    const newPass     = document.getElementById('new-pass').value;
+    const confirmPass = document.getElementById('confirm-pass').value;
+
+    if (!newPass || !confirmPass) {
+      return toast('Please fill in both password fields.');
+    }
+    if (newPass.length < 6) {
+      return toast('New password must be at least 6 characters.');
+    }
+    if (newPass !== confirmPass) {
+      return toast('Passwords do not match.');
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return toast('You are not logged in.');
+
+    setLoading('change-pass-btn', true, 'Updating…', 'Update Password');
+
+    const { error } = await supabaseClient.auth.updateUser({ password: newPass });
+
+    setLoading('change-pass-btn', false, '', 'Update Password');
+
+    if (error) {
+      return toast('Update failed: ' + error.message);
+    }
+
+    document.getElementById('new-pass').value = '';
+    document.getElementById('confirm-pass').value = '';
+
+    toast('Password updated.');
+  }
+
+  /* ============================================================
      REFRESH AUTH STATE
      ============================================================ */
   async function refreshAuthState() {
@@ -2782,6 +2833,8 @@
         document.getElementById('new-user').value = '';
         document.getElementById('new-gd').value = '';
         document.getElementById('new-discord').value = '';
+        document.getElementById('new-pass').value = '';
+        document.getElementById('confirm-pass').value = '';
 
         await renderAccountStats();
       }
